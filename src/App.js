@@ -7,6 +7,7 @@ import HubPage from './components/HubPage';
 import WorkoutInfo from './components/WorkoutInfo';
 import MealInfo from './components/MealInfo';
 import WorkoutDemo from './components/WorkoutDemo';
+import MealPlanDemo from './components/MealPlanDemo';
 
 function HomePage() {
   const [activeModal, setActiveModal] = useState(null);
@@ -46,6 +47,7 @@ function App() {
         <Route path="/workout-info" element={<WorkoutInfo />} />
         <Route path="/meal-info" element={<MealInfo />} />
         <Route path="/workout-generator" element={<WorkoutDemo />} />
+        <Route path="/meal-plan-generator" element={<MealPlanDemo />} />
       </Routes>
     </Router>
   );

@@ -34,7 +34,7 @@ function HubPage() {
               <li>✓ Aligned with your goals</li>
               <li>✓ Shopping list included</li>
             </ul>
-            <a href="/signup?tool=meal" className="btn-primary-page">Create Meal Plan</a>
+            <a href="/meal-plan-generator" className="btn-primary-page">Create Meal Plan</a>
           </div>
         </div>
 
