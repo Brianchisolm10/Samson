@@ -1,0 +1,226 @@
+.hub-page {
+  background: #e8dcc8;
+  min-height: 100vh;
+  padding: 60px 50px;
+}
+
+.hub-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hub-page-title {
+  font-size: 42px;
+  font-weight: 300;
+  color: #2a2a2a;
+  margin: 0 0 15px 0;
+  text-align: center;
+}
+
+.hub-page-subtitle {
+  font-size: 16px;
+  color: #2a2a2a;
+  text-align: center;
+  margin: 0 0 50px 0;
+  font-weight: 300;
+}
+
+.tools-grid-hub {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.tool-card-page {
+  background: #ffffff;
+  border: 1px solid #2a2a2a;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tool-header-page {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.tool-icon-page {
+  font-size: 40px;
+}
+
+.tool-card-page h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #2a2a2a;
+  margin: 0;
+}
+
+.tool-features-page {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tool-features-page li {
+  color: #2a2a2a;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.btn-primary-page {
+  background: #2a2a2a;
+  color: #e8dcc8;
+  padding: 12px 24px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.btn-primary-page:hover {
+  background: #e8dcc8;
+  color: #2a2a2a;
+  border: 1px solid #2a2a2a;
+}
+
+.signup-section {
+  background: #ffffff;
+  border: 1px solid #2a2a2a;
+  padding: 40px;
+  text-align: center;
+}
+
+.signup-section h2 {
+  font-size: 28px;
+  font-weight: 300;
+  color: #2a2a2a;
+  margin: 0 0 15px 0;
+}
+
+.signup-section p {
+  font-size: 14px;
+  color: #2a2a2a;
+  margin: 0 0 25px 0;
+  font-weight: 300;
+}
+
+.btn-signup {
+  background: #2a2a2a;
+  color: #e8dcc8;
+  padding: 14px 40px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  display: inline-block;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.btn-signup:hover {
+  background: #e8dcc8;
+  color: #2a2a2a;
+  border: 1px solid #2a2a2a;
+}
+
+.login-link {
+  font-size: 12px;
+  color: #2a2a2a;
+}
+
+.login-link a {
+  color: #2a2a2a;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  opacity: 0.7;
+}
+
+.coming-soon-section {
+  margin: 60px 0;
+  text-align: center;
+}
+
+.coming-soon-section h2 {
+  font-size: 28px;
+  font-weight: 300;
+  color: #2a2a2a;
+  margin: 0 0 15px 0;
+}
+
+.coming-soon-section > p {
+  font-size: 14px;
+  color: #2a2a2a;
+  margin: 0 0 40px 0;
+  font-weight: 300;
+}
+
+.coming-soon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.coming-soon-card {
+  background: #ffffff;
+  border: 1px solid #2a2a2a;
+  padding: 25px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.coming-soon-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.coming-soon-card h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2a2a;
+  margin: 0 0 10px 0;
+}
+
+.coming-soon-card p {
+  font-size: 12px;
+  color: #2a2a2a;
+  margin: 0;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .hub-page {
+    padding: 40px 20px;
+  }
+
+  .tools-grid-hub {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .coming-soon-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .tools-page-title {
+    font-size: 32px;
+  }
+}

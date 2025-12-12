@@ -1,0 +1,136 @@
+.cta {
+  max-width: 100%;
+  margin: 0;
+  padding: 20px 50px 20px 50px;
+  background: #e8dcc8;
+  flex-grow: 1;
+}
+
+.cta-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.donate-section {
+  background: transparent;
+  padding: 20px 40px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  border: 1px solid #2a2a2a;
+  border-radius: 0;
+  box-shadow: none;
+  animation: slideInUp 0.6s ease-out;
+}
+
+.donate-text {
+  color: #2a2a2a;
+  font-size: 18px;
+  margin: 0;
+  font-weight: 300;
+  text-align: center;
+}
+
+.donate-link {
+  background: #2a2a2a;
+  color: #e8dcc8;
+  padding: 12px 32px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  display: inline-block;
+  white-space: nowrap;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.donate-link:hover {
+  background: #e8dcc8;
+  color: #2a2a2a;
+  border: 1px solid #2a2a2a;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cta-footer {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-size: 12px;
+  padding-bottom: 0;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cta-footer p {
+  color: #2a2a2a;
+  margin: 0;
+  font-weight: 300;
+}
+
+.contact-link {
+  color: #2a2a2a;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+  letter-spacing: 0;
+}
+
+.contact-link:hover {
+  opacity: 0.6;
+}
+
+.copyright {
+  text-align: right;
+}
+
+.copyright p {
+  color: #2a2a2a;
+  font-size: 12px;
+  margin: 0;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .cta {
+    padding: 40px 20px;
+  }
+
+  .cta-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-content {
+    justify-content: center;
+  }
+
+  .copyright {
+    text-align: center;
+  }
+}

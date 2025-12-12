@@ -1,0 +1,67 @@
+.workout-demo {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+}
+
+.error-message {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff5f5;
+  border: 2px solid #FF2625;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.error-message p {
+  color: #c41e1e;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+.error-message button {
+  padding: 10px 20px;
+  background: #FF2625;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.error-message button:hover {
+  background: #e01f1f;
+}
+
+.btn-back-to-questionnaire {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  padding: 10px 16px;
+  background: #FF2625;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 38, 37, 0.2);
+}
+
+.btn-back-to-questionnaire:hover {
+  background: #e01f1f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 38, 37, 0.3);
+}
+
+@media (max-width: 600px) {
+  .btn-back-to-questionnaire {
+    top: 70px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}

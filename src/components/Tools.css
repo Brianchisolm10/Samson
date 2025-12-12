@@ -1,0 +1,209 @@
+.tools {
+  max-width: 100%;
+  margin: 0;
+  padding: 80px 50px;
+  background: #e8dcc8;
+}
+
+.tools-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tools-container h2 {
+  font-size: 42px;
+  font-weight: 300;
+  margin-bottom: 15px;
+  color: #2a2a2a;
+  letter-spacing: -0.5px;
+}
+
+.tools-container > p {
+  font-size: 16px;
+  color: #2a2a2a;
+  margin-bottom: 50px;
+  font-weight: 300;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.tool-card {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  border-radius: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: none;
+  height: 100%;
+  animation: slideUp 0.6s ease-out;
+}
+
+.tool-card:hover {
+  box-shadow: 0 8px 24px rgba(42, 42, 42, 0.15);
+  transform: translateY(-4px);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tool-header {
+  background: transparent;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.tool-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.tool-card h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #2a2a2a;
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.tool-features {
+  list-style: none;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.tool-features li {
+  color: #2a2a2a;
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0;
+  padding: 14px 24px;
+  font-weight: 400;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.tool-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.tool-card .btn {
+  flex: 1;
+  justify-content: center;
+  padding: 14px 18px;
+  font-size: 12px;
+  background: transparent;
+  color: #2a2a2a;
+  border: none;
+  border-radius: 0;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #2a2a2a;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card .btn:last-child {
+  border-right: none;
+}
+
+.tool-card .btn-secondary {
+  background: transparent;
+  color: #2a2a2a;
+  border: none;
+}
+
+.tool-card .btn:hover {
+  background: #2a2a2a;
+  color: #e8dcc8;
+}
+
+.tool-card .btn-secondary:hover {
+  background: #2a2a2a;
+  color: #e8dcc8;
+}
+
+.tool-card .btn:hover {
+  background: #7d5490;
+  box-shadow: 0 4px 12px rgba(155, 107, 168, 0.3);
+  transform: scale(1.02);
+}
+
+.tool-card .btn-secondary:hover {
+  background: rgba(155, 107, 168, 0.15);
+  color: #7d5490;
+}
+
+@media (max-width: 1024px) {
+  .tools {
+    padding: 60px 40px;
+  }
+
+  .tools-grid {
+    gap: 30px;
+  }
+
+  .tool-card {
+    padding: 40px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tools {
+    padding: 40px 20px;
+  }
+
+  .tools-container h2 {
+    font-size: 36px;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .tool-card {
+    padding: 30px 20px;
+  }
+
+  .tool-icon {
+    font-size: 40px;
+  }
+
+  .tool-card h3 {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,106 @@
+.info-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.info-tooltip-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FF2625;
+  color: white;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+  margin-left: 4px;
+}
+
+.info-icon:hover {
+  background: #e01f1f;
+  transform: scale(1.15);
+}
+
+.info-tooltip-content {
+  position: absolute;
+  top: 100%;
+  left: -150px;
+  width: 300px;
+  background: white;
+  border: 2px solid #FF2625;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.info-tooltip-content p {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding-right: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #FF2625;
+}
+
+@media (max-width: 600px) {
+  .info-tooltip-content {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    margin: 0;
+  }
+}
