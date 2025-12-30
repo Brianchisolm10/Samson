@@ -183,26 +183,24 @@ function Resources() {
                     <p className="category-subtitle">{activeTab.subtitle}</p>
                   </div>
 
-                  <div className="category-grid">
-                    <div className="category-section">
-                      <h3>Core Topics</h3>
-                      <ul className="topics-list">
-                        {activeTab.topics.map((topic, idx) => (
-                          <li key={idx}>{topic}</li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className="category-section">
+                    <h3>Core Topics</h3>
+                    <ul className="topics-list">
+                      {activeTab.topics.map((topic, idx) => (
+                        <li key={idx}>{topic}</li>
+                      ))}
+                    </ul>
+                  </div>
 
-                    <div className="category-section">
-                      <h3>Resource Types</h3>
-                      <div className="resources-list">
-                        {activeTab.resources.map((resource, idx) => (
-                          <div key={idx} className="resource-item">
-                            <div className="resource-name">{resource.name}</div>
-                            <div className="resource-type">{resource.type}</div>
-                          </div>
-                        ))}
-                      </div>
+                  <div className="category-section">
+                    <h3>Resource Types</h3>
+                    <div className="resources-list">
+                      {activeTab.resources.map((resource, idx) => (
+                        <div key={idx} className="resource-item">
+                          <div className="resource-name">{resource.name}</div>
+                          <div className="resource-type">{resource.type}</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
 

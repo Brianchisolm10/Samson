@@ -128,8 +128,8 @@
 }
 
 .category-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 28px;
 }
 
@@ -140,6 +140,10 @@
   text-transform: uppercase;
   color: #333;
   margin: 0 0 16px 0;
+}
+
+.category-section {
+  margin-bottom: 24px;
 }
 
 .topics-list {
@@ -213,9 +217,8 @@
 }
 
 @media (max-width: 1024px) {
-  .category-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .resources-container {
+    padding: 30px 20px;
   }
 }
 
@@ -249,10 +252,6 @@
 
   .category-header h2 {
     font-size: 20px;
-  }
-
-  .category-grid {
-    grid-template-columns: 1fr;
   }
 
   .resource-item {
