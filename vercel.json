@@ -1,8 +1,8 @@
 {
-  "buildCommand": "cd fitness-platform && npm run build",
-  "installCommand": "cd fitness-platform && npm install",
-  "outputDirectory": "fitness-platform/build",
-  "devCommand": "cd fitness-platform && npm start",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "build",
+  "devCommand": "npm start",
   "env": {
     "REACT_APP_API_URL": "@react_app_api_url"
   }
