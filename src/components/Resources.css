@@ -1,0 +1,266 @@
+.resources-page {
+  background: #e8dcc8;
+  padding-bottom: 0;
+}
+
+.resources-hero {
+  background: linear-gradient(135deg, #c9bfb0 0%, #ddd0c0 100%);
+  color: #333;
+  text-align: center;
+  padding: 40px 40px 30px 40px;
+}
+
+.resources-hero-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #999;
+  margin: 0 0 5px 0;
+}
+
+.resources-hero-title {
+  font-size: 36px;
+  font-weight: 300;
+  margin: 0 0 8px 0;
+  letter-spacing: -1px;
+  color: #333;
+}
+
+.resources-hero-description {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 300;
+}
+
+.resources-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 40px;
+}
+
+.resources-intro {
+  background: #f5f3f0;
+  border: 1px solid #d0ccc4;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.resources-intro p {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.resources-tabs {
+  background: #f5f3f0;
+  border: 1px solid #d0ccc4;
+}
+
+.tab-buttons {
+  display: flex;
+  border-bottom: 1px solid #d0ccc4;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 14px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  transition: all 0.3s ease;
+  min-width: 100px;
+  text-align: center;
+  border-right: 1px solid #d0ccc4;
+  white-space: nowrap;
+}
+
+.tab-btn:last-child {
+  border-right: none;
+}
+
+.tab-btn:hover {
+  color: #333;
+  background: #ede9e1;
+}
+
+.tab-btn.active {
+  color: #333;
+  background: #ede9e1;
+  border-bottom: 2px solid #333;
+  margin-bottom: -1px;
+}
+
+.tab-content {
+  padding: 28px;
+}
+
+.category-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.category-header h2 {
+  font-size: 24px;
+  font-weight: 300;
+  color: #333;
+  margin: 0 0 8px 0;
+  letter-spacing: -1px;
+}
+
+.category-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.category-section h3 {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #333;
+  margin: 0 0 16px 0;
+}
+
+.topics-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topics-list li {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  padding: 12px;
+  background: #ede9e1;
+  border: 1px solid #d0ccc4;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.resources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resource-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #ede9e1;
+  border: 1px solid #d0ccc4;
+  gap: 12px;
+}
+
+.resource-name {
+  font-size: 12px;
+  color: #333;
+  font-weight: 400;
+  flex: 1;
+}
+
+.resource-type {
+  font-size: 10px;
+  color: #999;
+  background: #f5f3f0;
+  padding: 4px 8px;
+  border: 1px solid #d0ccc4;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.category-footer {
+  text-align: center;
+  padding: 16px;
+  background: #ede9e1;
+  border: 1px solid #d0ccc4;
+}
+
+.coming-soon-note {
+  font-size: 11px;
+  color: #999;
+  margin: 0;
+  font-weight: 300;
+  font-style: italic;
+}
+
+@media (max-width: 1024px) {
+  .category-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .resources-hero {
+    padding: 30px 20px;
+  }
+
+  .resources-hero-title {
+    font-size: 28px;
+  }
+
+  .resources-container {
+    padding: 30px 20px;
+  }
+
+  .tab-buttons {
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    flex: 0 0 auto;
+    min-width: 80px;
+    padding: 12px 12px;
+    font-size: 11px;
+  }
+
+  .tab-content {
+    padding: 20px;
+  }
+
+  .category-header h2 {
+    font-size: 20px;
+  }
+
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .resource-type {
+    align-self: flex-start;
+  }
+}

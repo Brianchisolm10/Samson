@@ -1,0 +1,733 @@
+.admin-dashboard {
+  background-color: #e8dcc8;
+  min-height: 100vh;
+}
+
+.admin-hero {
+  background: linear-gradient(135deg, #c9bfb0 0%, #ddd0c0 100%);
+  color: #333;
+  padding: 40px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.hero-content h1 {
+  font-size: 48px;
+  font-weight: 300;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+  color: #333;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+}
+
+.logout-btn {
+  padding: 10px 24px;
+  background: #333;
+  color: #e8dcc8;
+  border: 1px solid #333;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.logout-btn:hover {
+  background: #e8dcc8;
+  color: #333;
+}
+
+.btn-food-library {
+  padding: 10px 24px;
+  background: #8B6F47;
+  color: #e8dcc8;
+  border: 1px solid #8B6F47;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-food-library:hover {
+  background: #e8dcc8;
+  color: #8B6F47;
+}
+
+.btn-exercise-library {
+  padding: 10px 24px;
+  background: #8B6F47;
+  color: #e8dcc8;
+  border: 1px solid #8B6F47;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-exercise-library:hover {
+  background: #e8dcc8;
+  color: #8B6F47;
+}
+
+/* Admin Layout */
+.admin-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Overview Section - Metric Cards */
+.overview-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border-radius: 0;
+  border: 1px solid #d0ccc4;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  border-color: #8B6F47;
+  box-shadow: 0 2px 8px rgba(139, 111, 71, 0.1);
+}
+
+.metric-card-1 {
+  border-left: 4px solid #8B6F47;
+}
+
+.metric-card-2 {
+  border-left: 4px solid #4CAF50;
+}
+
+.metric-card-3 {
+  border-left: 4px solid #2196F3;
+}
+
+.metric-card-4 {
+  border-left: 4px solid #FF9800;
+}
+
+.metric-content {
+  flex: 1;
+}
+
+.metric-label {
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 300;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.metric-change {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.metric-change.positive {
+  color: #4CAF50;
+}
+
+.metric-change.neutral {
+  color: #999;
+}
+
+.metric-change.negative {
+  color: #F44336;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  background: white;
+  border-radius: 0;
+  border: 1px solid #d0ccc4;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border-bottom: 1px solid #d0ccc4;
+  user-select: none;
+}
+
+.card-header:hover {
+  background: #f9f7f4;
+}
+
+.card-header h2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  color: #333;
+  letter-spacing: -0.2px;
+}
+
+.toggle-icon {
+  font-size: 12px;
+  color: #999;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.toggle-icon.expanded {
+  transform: rotate(0deg);
+}
+
+.card-content {
+  padding: 20px;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
+/* Chart Container */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  width: 100%;
+}
+
+.line-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Animated line */
+.chart-line {
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  animation: drawLine 2s ease-in-out forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Animated area */
+.chart-area {
+  animation: fillArea 2s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes fillArea {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animated data points */
+.chart-point {
+  animation: pointAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--point-delay, 0s) both;
+}
+
+@keyframes pointAppear {
+  from {
+    r: 0;
+    opacity: 0;
+  }
+  to {
+    r: 4;
+    opacity: 1;
+  }
+}
+
+/* Chart tooltip */
+.chart-tooltip {
+  position: absolute;
+  background: white;
+  color: #333;
+  padding: 10px 14px;
+  border-radius: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  border: 1px solid #d0ccc4;
+  animation: tooltipFadeIn 0.2s ease;
+  transform: translateX(-50%);
+  bottom: 250px;
+  box-shadow: none;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.chart-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid white;
+}
+
+.tooltip-date {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.tooltip-value {
+  font-weight: 400;
+  color: #333;
+  font-size: 13px;
+}
+
+/* Hover areas */
+.chart-hover-areas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 240px;
+  pointer-events: none;
+}
+
+.hover-area {
+  position: absolute;
+  width: 80px;
+  height: 100%;
+  top: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.2s ease;
+}
+
+.hover-area:hover {
+  background: rgba(139, 111, 71, 0.05);
+}
+
+/* Users Table */
+.users-table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e8e4dc;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr 1fr;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #f9f7f4;
+  border-bottom: 1px solid #e8e4dc;
+  font-weight: 400;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #999;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr 1fr;
+  gap: 16px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e8e4dc;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.table-row:hover {
+  background: #f9f7f4;
+}
+
+.table-cell {
+  font-size: 13px;
+  color: #333;
+  font-weight: 400;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: 1px solid;
+}
+
+.badge-intermediate {
+  background: #f0f4ff;
+  color: #2196F3;
+  border-color: #2196F3;
+}
+
+.badge-beginner {
+  background: #f0f8f0;
+  color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.badge-advanced {
+  background: #fff3f0;
+  color: #FF9800;
+  border-color: #FF9800;
+}
+
+.badge-elite {
+  background: #f3f0ff;
+  color: #9C27B0;
+  border-color: #9C27B0;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.stat-box {
+  padding: 20px;
+  background: #f9f7f4;
+  border: 1px solid #e8e4dc;
+  border-radius: 0;
+}
+
+.stat-box h3 {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 0 16px 0;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.stat-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e8e4dc;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 400;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 400;
+  color: #8B6F47;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .admin-layout {
+    padding: 30px 25px;
+  }
+
+  .metrics-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 30px 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .admin-layout {
+    padding: 20px 16px;
+    gap: 20px;
+  }
+
+  .metrics-row {
+    grid-template-columns: 1fr;
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .table-header {
+    padding: 12px;
+  }
+
+  .table-row {
+    padding: 12px;
+  }
+
+  .chart-labels {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Food Library Section */
+.food-library {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.food-form {
+  padding: 20px;
+  background: #f9f7f4;
+  border: 1px solid #e8e4dc;
+  border-radius: 0;
+}
+
+.food-form h3 {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 0 16px 0;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.form-input {
+  padding: 10px 12px;
+  border: 1px solid #d0ccc4;
+  border-radius: 0;
+  font-size: 12px;
+  color: #333;
+  background: white;
+  font-weight: 400;
+  font-family: inherit;
+}
+
+.form-input::placeholder {
+  color: #999;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #8B6F47;
+  box-shadow: 0 0 0 2px rgba(139, 111, 71, 0.1);
+}
+
+.btn-add-food {
+  padding: 10px 24px;
+  background: #333;
+  color: #e8dcc8;
+  border: 1px solid #333;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.btn-add-food:hover {
+  background: #e8dcc8;
+  color: #333;
+}
+
+.foods-list {
+  padding: 20px;
+  background: #f9f7f4;
+  border: 1px solid #e8e4dc;
+  border-radius: 0;
+}
+
+.foods-list h3 {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 0 16px 0;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.empty-state {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.foods-table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e8e4dc;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.foods-table .table-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 0.8fr;
+  gap: 16px;
+  padding: 12px 16px;
+  background: white;
+  border-bottom: 1px solid #e8e4dc;
+  font-weight: 400;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #999;
+}
+
+.foods-table .table-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 0.8fr;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e8e4dc;
+  align-items: center;
+  background: white;
+  transition: background 0.2s ease;
+}
+
+.foods-table .table-row:hover {
+  background: #f9f7f4;
+}
+
+.btn-delete {
+  padding: 6px 12px;
+  background: white;
+  color: #F44336;
+  border: 1px solid #F44336;
+  border-radius: 0;
+  font-size: 10px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.btn-delete:hover {
+  background: #F44336;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .foods-table .table-header,
+  .foods-table .table-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

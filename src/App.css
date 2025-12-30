@@ -4,6 +4,13 @@
   box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -26,7 +33,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,42 +42,47 @@ body {
 }
 
 .modal-content {
-  background: linear-gradient(135deg, #1a2a4a 0%, #2a3a5a 100%);
-  border-radius: 12px;
-  padding: 40px;
+  background: #f5f3f0;
+  border-radius: 0;
+  padding: 28px;
   max-width: 600px;
   width: 90%;
   position: relative;
-  border: 1px solid #00d4ff;
-  box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+  border: 1px solid #d0ccc4;
+  box-shadow: none;
   animation: slideUp 0.3s ease-out;
 }
 
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   background: none;
   border: none;
-  color: #00d4ff;
-  font-size: 28px;
+  color: #333;
+  font-size: 24px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: opacity 0.2s;
+  font-weight: 300;
 }
 
 .modal-close:hover {
-  transform: scale(1.2);
+  opacity: 0.6;
 }
 
 .modal-content h2 {
-  color: #00d4ff;
-  margin-bottom: 20px;
-  font-size: 28px;
+  color: #333;
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -1px;
 }
 
 .modal-content p {
-  color: #b0b0b0;
+  color: #666;
   line-height: 1.6;
+  font-size: 13px;
+  font-weight: 300;
 }
 
 @keyframes fadeIn {

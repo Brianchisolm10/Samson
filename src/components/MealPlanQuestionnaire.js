@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './MealPlanQuestionnaire.css';
+import MealPlanDisplay from './MealPlanDisplay';
 import InfoTooltip from './InfoTooltip';
 
 function MealPlanQuestionnaire({ onComplete }) {
   const [step, setStep] = useState('initial');
   const [responses, setResponses] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [mealPlan, setMealPlan] = useState(null);
 
   const initialQuestions = [
     {
@@ -194,6 +196,9 @@ function MealPlanQuestionnaire({ onComplete }) {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
+      const { generateMealPlan } = await import('../utils/mealPlanEngine');
+      const plan = await generateMealPlan(responses);
+      setMealPlan(plan);
       if (onComplete) {
         onComplete(responses);
       }
@@ -272,7 +277,9 @@ function MealPlanQuestionnaire({ onComplete }) {
   };
 
   return (
-    <div className="questionnaire-container meal-plan-questionnaire">
+    <div className={`questionnaire-wrapper ${mealPlan ? 'has-results' : ''}`}>
+      <div className="questionnaire-side">
+        <div className="questionnaire-container meal-plan-questionnaire">
       {step === 'initial' && (
         <div className="questionnaire-step">
           <div className="step-header">
@@ -339,6 +346,15 @@ function MealPlanQuestionnaire({ onComplete }) {
           </div>
         </div>
       )}
+      </div>
+
+      {/* Results Panel */}
+      {mealPlan && (
+        <div className="results-side visible">
+          <MealPlanDisplay mealPlan={mealPlan} responses={responses} />
+        </div>
+      )}
+      </div>
     </div>
   );
 }

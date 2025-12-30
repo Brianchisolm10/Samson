@@ -1,37 +1,384 @@
 .meal-plan-demo {
   min-height: 100vh;
-  background: #fafafa;
+  background: #e8dcc8;
+}
+
+.back-to-dashboard-btn {
+  display: inline-block;
+  margin: 16px 30px 0 30px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #e8dcc8;
+  text-decoration: none;
+  background: #333;
+  border: 1px solid #333;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.back-to-dashboard-btn:hover {
+  background: #e8dcc8;
+  color: #333;
+  border-color: #333;
+}
+
+/* Hero Section */
+.meal-plan-hero {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: center;
+  min-height: 600px;
+  padding: 60px 40px;
+}
+
+.meal-plan-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 2;
+}
+
+.meal-plan-hero-title {
+  font-size: 52px;
+  font-weight: 300;
+  margin: 0;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.meal-plan-hero-subtitle {
+  font-size: 18px;
+  font-weight: 300;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.meal-plan-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.meal-plan-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.meal-plan-feature-icon {
+  font-size: 20px;
+  color: #e8dcc8;
+  font-weight: bold;
+}
+
+.meal-plan-cta-button {
+  background: #e8dcc8;
+  color: #333;
+  padding: 16px 32px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-block;
+  width: fit-content;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.meal-plan-cta-button:hover {
+  background: #f5f3f0;
+  color: #333;
+  transform: translateY(-2px);
+}
+
+.meal-plan-hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.meal-plan-visual-placeholder {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 60px 40px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 400px;
+}
+
+.meal-plan-visual-icon {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.meal-plan-visual-placeholder p {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Choice Modal */
+.choice-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.choice-modal {
+  background: #f5f3f0;
+  border-radius: 0;
+  padding: 28px;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: none;
+  border: 1px solid #d0ccc4;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.choice-modal h1 {
+  font-size: 28px;
+  font-weight: 300;
+  color: #333;
+  margin: 0 0 8px 0;
+  text-align: center;
+  letter-spacing: -1px;
+}
+
+.choice-subtitle {
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+  margin: 0 0 24px 0;
+  font-weight: 300;
+}
+
+.choice-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.choice-card {
+  border: 1px solid #d0ccc4;
+  border-radius: 0;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  background: #ede9e1;
+}
+
+.choice-card:hover {
+  border-color: #333;
+  background: #f5f3f0;
+}
+
+.choice-card.detailed {
+  background: #ede9e1;
+}
+
+.choice-card.quick {
+  background: #ede9e1;
+}
+
+.choice-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.choice-card h2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.choice-description {
+  font-size: 12px;
+  color: #666;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.choice-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.choice-features li {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 6px;
+  padding-left: 16px;
+  position: relative;
+  font-weight: 300;
+}
+
+.choice-features li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #333;
+  font-weight: 400;
+}
+
+.choice-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 16px 0;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.feature-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #666;
+  font-weight: 300;
+}
+
+.feature-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #8B6F47;
+  flex-shrink: 0;
+}
+
+.feature-checkbox.checked input[type="checkbox"] {
+  accent-color: #8B6F47;
+}
+
+.feature-checkbox.unchecked input[type="checkbox"] {
+  accent-color: #ccc;
+}
+
+.feature-checkbox.unchecked span {
+  color: #999;
+  opacity: 0.7;
+}
+
+.btn-choice {
+  padding: 10px 20px;
+  border: 1px solid #333;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: 100%;
+}
+
+.btn-choice.detailed {
+  background: #333;
+  color: #e8dcc8;
+}
+
+.btn-choice.detailed:hover {
+  background: #e8dcc8;
+  color: #333;
+}
+
+.btn-choice.quick {
+  background: #333;
+  color: #e8dcc8;
+}
+
+.btn-choice.quick:hover {
+  background: #e8dcc8;
+  color: #333;
+}
+
+.logged-in-message {
+  text-align: center;
+  font-size: 11px;
+  color: #333;
+  margin: 0;
+  padding: 10px;
+  background: #ede9e1;
+  border-radius: 0;
+  border: 1px solid #d0ccc4;
+  font-weight: 300;
 }
 
 .error-message {
   max-width: 600px;
   margin: 40px auto;
   padding: 20px;
-  background: #fff5f5;
-  border: 2px solid #FFD4D3;
-  border-radius: 8px;
+  background: #f5f3f0;
+  border: 1px solid #d0ccc4;
+  border-radius: 0;
   text-align: center;
 }
 
 .error-message p {
-  color: #c41e1e;
-  font-weight: 600;
+  color: #333;
+  font-weight: 400;
   margin: 0 0 16px 0;
+  font-size: 13px;
 }
 
 .error-message button {
   padding: 10px 20px;
-  background: #FF2625;
-  color: white;
-  border: none;
-  border-radius: 6px;
+  background: #333;
+  color: #e8dcc8;
+  border: 1px solid #333;
+  border-radius: 0;
   font-weight: 600;
+  font-size: 11px;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .error-message button:hover {
-  background: #c41e1e;
+  background: #e8dcc8;
+  color: #333;
 }
 
 /* Loading Overlay */
@@ -49,18 +396,19 @@
 }
 
 .loading-spinner {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
+  background: #f5f3f0;
+  padding: 28px;
+  border-radius: 0;
   text-align: center;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
+  border: 1px solid #d0ccc4;
 }
 
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f0f0f0;
-  border-top: 4px solid #FF2625;
+  border: 4px solid #ede9e1;
+  border-top: 4px solid #333;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 16px;
@@ -76,9 +424,10 @@
 }
 
 .loading-spinner p {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
   margin: 0;
+  font-weight: 300;
 }
 
 /* Back Button */
@@ -86,23 +435,49 @@
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
-  background: white;
-  color: #FF2625;
-  border: 2px solid #FF2625;
-  border-radius: 6px;
-  font-size: 12px;
+  background: transparent;
+  color: #333;
+  border: 1px solid #333;
+  border-radius: 0;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-back-to-questionnaire:hover {
-  background: #fff5f5;
+  background: #333;
+  color: #e8dcc8;
 }
 
 @media (max-width: 600px) {
+  .meal-plan-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 40px 20px;
+    gap: 30px;
+  }
+
+  .meal-plan-hero-title {
+    font-size: 36px;
+  }
+
+  .meal-plan-hero-subtitle {
+    font-size: 14px;
+  }
+
+  .meal-plan-visual-placeholder {
+    padding: 40px 20px;
+  }
+
+  .meal-plan-visual-icon {
+    font-size: 60px;
+  }
+
   .loading-spinner {
-    padding: 30px 20px;
+    padding: 20px;
   }
 
   .spinner {
@@ -112,5 +487,51 @@
 
   .loading-spinner p {
     font-size: 12px;
+  }
+
+  .choice-modal-overlay {
+    padding: 12px;
+  }
+
+  .choice-modal {
+    padding: 20px;
+  }
+
+  .choice-modal h1 {
+    font-size: 22px;
+  }
+
+  .choice-subtitle {
+    font-size: 12px;
+  }
+
+  .choice-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .choice-card {
+    padding: 16px;
+  }
+
+  .choice-icon {
+    font-size: 28px;
+  }
+
+  .choice-card h2 {
+    font-size: 14px;
+  }
+
+  .choice-description {
+    font-size: 11px;
+  }
+
+  .choice-features li {
+    font-size: 10px;
+  }
+
+  .btn-choice {
+    padding: 10px 16px;
+    font-size: 10px;
   }
 }

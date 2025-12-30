@@ -1,0 +1,256 @@
+/* Force cache bust - updated checkbox styling */
+.questionnaire-container {
+  background: #e8dcc8;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.questionnaire-header {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  position: relative;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #e8dcc8;
+  text-decoration: none;
+  background: #333;
+  border: 1px solid #333;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: #e8dcc8;
+  color: #333;
+  border-color: #333;
+}
+
+.questionnaire-header h2 {
+  font-size: 28px;
+  font-weight: 300;
+  margin: 0 0 12px 0;
+  color: #333;
+  letter-spacing: -0.3px;
+}
+
+.questionnaire-header p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+}
+
+.questionnaire-form {
+  max-width: 700px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #d0ccc4;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.question-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.question-header label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.options-group {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.option-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 32px;
+  border: 1px solid #d0ccc4;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  min-height: 70px;
+}
+
+.option-label:hover {
+  border-color: #8B6F47;
+  background: #f9f7f4;
+}
+
+.option-label input[type="radio"],
+.option-label input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: #8B6F47;
+  margin-top: 0px;
+  flex-shrink: 0;
+}
+
+.option-label span {
+  font-size: 15px;
+  color: #333;
+  font-weight: 400;
+  line-height: 1.6;
+  word-spacing: 0.1em;
+}
+
+.checkbox-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 32px;
+  border: 2px solid #d0ccc4;
+  border-radius: 0;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  font-weight: 400;
+  color: #333;
+  text-align: left;
+  min-height: 70px;
+}
+
+.checkbox-button:hover {
+  border-color: #8B6F47;
+  background: #f9f7f4;
+}
+
+.checkbox-button.active {
+  border-color: #8B6F47;
+  background: #f5f3f0;
+}
+
+.checkbox-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid #d0ccc4;
+  border-radius: 0;
+  background: white;
+  color: #8B6F47;
+  font-weight: 600;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.checkbox-button.active .checkbox-button-icon {
+  border-color: #8B6F47;
+  background: #8B6F47;
+  color: white;
+}
+
+.checkbox-button-text {
+  flex: 1;
+  line-height: 1.6;
+}
+
+.text-input {
+  padding: 12px 14px;
+  border: 1px solid #d0ccc4;
+  border-radius: 0;
+  font-size: 13px;
+  color: #333;
+  background: white;
+  font-family: inherit;
+  font-weight: 300;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #8B6F47;
+  box-shadow: 0 0 0 2px rgba(139, 111, 71, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #d0ccc4;
+}
+
+.btn-back,
+.btn-generate {
+  flex: 1;
+  padding: 12px 24px;
+  border: 1px solid #d0ccc4;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-back {
+  background: white;
+  color: #333;
+  border-color: #d0ccc4;
+}
+
+.btn-back:hover {
+  background: #f5f3f0;
+  border-color: #8B6F47;
+}
+
+.btn-generate {
+  background: #333;
+  color: #e8dcc8;
+  border-color: #333;
+}
+
+.btn-generate:hover:not(:disabled) {
+  background: #8B6F47;
+  border-color: #8B6F47;
+}
+
+.btn-generate:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .questionnaire-form {
+    padding: 24px;
+    gap: 36px;
+  }
+
+  .options-group {
+    gap: 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}

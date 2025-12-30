@@ -7,6 +7,7 @@ function MealPlanDisplay({ mealPlan, responses }) {
   const [expandedMeal, setExpandedMeal] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
     shoppingList: false,
+    micronutrients: false,
   });
 
   if (!mealPlan || !mealPlan.days || mealPlan.days.length === 0) {
@@ -55,6 +56,22 @@ function MealPlanDisplay({ mealPlan, responses }) {
 
   return (
     <div className="meal-plan-display">
+      {/* Action Bar - Horizontal at Top */}
+      <div className="action-bar-horizontal">
+        <button className="action-bar-btn" onClick={() => window.print()}>
+          📄 Print
+        </button>
+        <button className="action-bar-btn" onClick={() => downloadMealPlan(mealPlan)}>
+          ⬇️ Download
+        </button>
+        <button className="action-bar-btn" onClick={() => alert('Save feature coming soon!')}>
+          💾 Save
+        </button>
+        <button className="action-bar-btn" onClick={() => window.location.href = '/hub'}>
+          ← Back to Tools
+        </button>
+      </div>
+
       <div className="meal-plan-header">
         <h1>Your 7-Day Meal Plan</h1>
         <p className="plan-meta">
@@ -63,10 +80,51 @@ function MealPlanDisplay({ mealPlan, responses }) {
         </p>
       </div>
 
+      {/* Client Summary */}
+      {mealPlan.metadata.clientInfo && (
+        <div className="client-summary">
+          <h3>Your Profile</h3>
+          <div className="summary-grid">
+            <div className="summary-item">
+              <span className="label">Gender:</span>
+              <span className="value">{mealPlan.metadata.clientInfo.gender}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Age:</span>
+              <span className="value">{mealPlan.metadata.clientInfo.age}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Weight:</span>
+              <span className="value">{mealPlan.metadata.clientInfo.bodyweight}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Height:</span>
+              <span className="value">{mealPlan.metadata.clientInfo.height}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Activity Level:</span>
+              <span className="value">{mealPlan.metadata.clientInfo.activityLevel}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Dietary Preference:</span>
+              <span className="value">{mealPlan.metadata.dietaryPreference}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Cuisines:</span>
+              <span className="value">{mealPlan.metadata.clientInfo.cuisines}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Allergies:</span>
+              <span className="value">{mealPlan.metadata.clientInfo.allergies}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Macro Summary */}
       <div className="macro-summary">
         <div className="summary-card">
-          <h4>Daily Targets</h4>
+          <h4>Macronutrient Targets</h4>
           <div className="macro-item">
             <span className="macro-label">Calories</span>
             <span className="macro-value">{macroTargets.dailyCalories}</span>
@@ -84,6 +142,21 @@ function MealPlanDisplay({ mealPlan, responses }) {
             <span className="macro-value">{macroTargets.fat}g</span>
           </div>
         </div>
+
+        {mealPlan.metadata.micronutrientTargets && (
+          <div className="summary-card">
+            <h4>Key Micronutrients</h4>
+            {['fiber', 'sodium', 'calcium', 'iron', 'vitaminC', 'vitaminD'].map((key) => {
+              const nutrient = mealPlan.metadata.micronutrientTargets[key];
+              return nutrient ? (
+                <div key={key} className="macro-item">
+                  <span className="macro-label">{nutrient.label}</span>
+                  <span className="macro-value">{nutrient.target}{nutrient.unit}</span>
+                </div>
+              ) : null;
+            })}
+          </div>
+        )}
       </div>
 
       <div className="meal-plan-container">
@@ -133,7 +206,54 @@ function MealPlanDisplay({ mealPlan, responses }) {
               <span className="value">{Math.round(currentDay.dailyTotals.fat)}g</span>
               <span className="target">/ {macroTargets.fat}g</span>
             </div>
+            <div className="total-item">
+              <span className="label">Fiber</span>
+              <span className="value">{Math.round(currentDay.dailyTotals.fiber)}g</span>
+              <span className="target">/ 25g</span>
+            </div>
           </div>
+
+          {/* Micronutrient Totals - Collapsible */}
+          {mealPlan.metadata.micronutrientTargets && (
+            <div className="micronutrient-totals">
+              <button
+                className="micronutrient-toggle"
+                onClick={() => toggleSection('micronutrients')}
+              >
+                <h4>Micronutrient Summary</h4>
+                <span className="toggle-icon">
+                  {expandedSections.micronutrients ? '▼' : '▶'}
+                </span>
+              </button>
+
+              {expandedSections.micronutrients && (
+                <div className="micronutrient-grid">
+                  {Object.entries(mealPlan.metadata.micronutrientTargets).map(([key, nutrient]) => {
+                    const actual = Math.round(currentDay.dailyTotals[key] || 0);
+                    const percentage = Math.round((actual / nutrient.target) * 100);
+                    return (
+                      <div key={key} className="micronutrient-item">
+                        <span className="nutrient-name">{nutrient.label}</span>
+                        <span className="nutrient-value">
+                          {actual}{nutrient.unit}
+                        </span>
+                        <span className="nutrient-target">
+                          / {nutrient.target}{nutrient.unit}
+                        </span>
+                        <div className="nutrient-bar">
+                          <div
+                            className="nutrient-bar-fill"
+                            style={{ width: `${Math.min(percentage, 100)}%` }}
+                          />
+                        </div>
+                        <span className="nutrient-percentage">{percentage}%</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Meals */}
           <div className="meals-list">
@@ -281,15 +401,6 @@ function MealPlanDisplay({ mealPlan, responses }) {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="action-buttons">
-        <button className="btn-print" onClick={() => window.print()}>
-          📄 Print Plan
-        </button>
-        <button className="btn-download" onClick={() => downloadMealPlan(mealPlan)}>
-          ⬇️ Download PDF
-        </button>
-      </div>
     </div>
   );
 }

@@ -1,0 +1,207 @@
+.schedule-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #e8dcc8;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+
+.back-button {
+  display: inline-block;
+  margin: 12px 0 20px 0;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #e8dcc8;
+  text-decoration: none;
+  background: #333;
+  border: 1px solid #333;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: #e8dcc8;
+  color: #333;
+  border-color: #333;
+}
+
+.schedule-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.schedule-header h1 {
+  font-size: 32px;
+  font-weight: 300;
+  color: #333;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.season-label {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+}
+
+.schedule-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.schedule-section {
+  background: white;
+  border-radius: 0;
+  padding: 28px;
+  border: 1px solid #d0ccc4;
+  box-shadow: none;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #d0ccc4;
+}
+
+.programs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.program-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #d0ccc4;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  background: #f5f3f0;
+}
+
+.program-card:hover {
+  border-color: #8B6F47;
+  background: #faf8f5;
+  box-shadow: 0 2px 6px rgba(139, 111, 71, 0.1);
+}
+
+.program-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.program-header h3 {
+  font-size: 15px;
+  font-weight: 400;
+  color: #333;
+  margin: 0;
+}
+
+.program-date {
+  font-size: 11px;
+  color: #999;
+  font-weight: 300;
+}
+
+.program-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.program-info {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+}
+
+.program-action {
+  text-align: right;
+}
+
+.btn-view {
+  padding: 8px 16px;
+  background: #333;
+  color: #e8dcc8;
+  border: 1px solid #333;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-view:hover {
+  background: #e8dcc8;
+  color: #333;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-state p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 16px 0;
+  font-weight: 300;
+}
+
+.btn-create {
+  padding: 10px 24px;
+  background: #333;
+  color: #e8dcc8;
+  border: 1px solid #333;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-create:hover {
+  background: #e8dcc8;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .schedule-container {
+    padding: 20px 16px;
+  }
+
+  .schedule-header h1 {
+    font-size: 24px;
+  }
+
+  .program-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .program-action {
+    text-align: left;
+  }
+
+  .btn-view {
+    width: 100%;
+  }
+}

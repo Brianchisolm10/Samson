@@ -1,0 +1,349 @@
+.admin-food-manager {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+.btn-back-home {
+  display: block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border: 2px solid white;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-back-home:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.manager-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.manager-header h1 {
+  font-size: 2.5em;
+  margin: 0 0 10px 0;
+}
+
+.manager-header p {
+  font-size: 1.1em;
+  opacity: 0.9;
+}
+
+/* Menu Section */
+.menu-section {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.menu-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 30px 20px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.menu-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.menu-btn span {
+  font-size: 0.8em;
+  opacity: 0.9;
+  font-weight: normal;
+}
+
+/* Back Button */
+.back-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 1em;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: #764ba2;
+}
+
+/* Search Section */
+.search-section,
+.add-section,
+.manage-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1em;
+}
+
+.search-box button {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.search-box button:hover:not(:disabled) {
+  background: #764ba2;
+}
+
+.search-box button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.category-select {
+  margin-bottom: 20px;
+}
+
+.category-select label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.category-select select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1em;
+}
+
+/* Search Results */
+.search-results {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+}
+
+.result-info h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.result-info p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.result-item button {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.result-item button:hover {
+  background: #764ba2;
+}
+
+.no-results {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+/* Form Section */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.btn-add {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+}
+
+/* Manage Section */
+.foods-list h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+}
+
+.food-info h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.food-info .category {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  margin-bottom: 5px;
+}
+
+.food-info .macros {
+  margin: 5px 0 0 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.btn-delete {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-delete:hover {
+  background: #ff5252;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-food-manager {
+    padding: 20px 10px;
+  }
+
+  .manager-header h1 {
+    font-size: 1.8em;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .result-item,
+  .food-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .result-item button,
+  .btn-delete {
+    width: 100%;
+  }
+}

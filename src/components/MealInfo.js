@@ -1,9 +1,12 @@
 import React from 'react';
 import './InfoPage.css';
+import TopNav from './TopNav';
 
 function MealInfo() {
   return (
-    <section className="info-page">
+    <>
+      <TopNav />
+      <section className="info-page">
       <div className="info-container">
         <div className="info-header">
           <h1>Meal Plan Creator</h1>
@@ -40,6 +43,7 @@ function MealInfo() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 

@@ -1,9 +1,12 @@
 import React from 'react';
 import './InfoPage.css';
+import TopNav from './TopNav';
 
 function WorkoutInfo() {
   return (
-    <section className="info-page">
+    <>
+      <TopNav />
+      <section className="info-page">
       <div className="info-container">
         <div className="info-header">
           <h1>Workout Generator</h1>
@@ -40,6 +43,7 @@ function WorkoutInfo() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 

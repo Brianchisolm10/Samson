@@ -4,6 +4,8 @@
  * Never defaults - always generates valid programs based on exact client needs
  */
 
+import { defaultExercises } from './exerciseDatabase';
+
 export const generateDetailedWorkout = async (responses) => {
   const {
     fitnessLevel,
@@ -101,24 +103,12 @@ const fetchExercises = async () => {
   }
 
   try {
-    // Try different paths for db.json - public folder is served from root
-    const paths = [
-      '/db.json',
-      '/Fitness-main/db.json',
-      './Fitness-main/db.json'
-    ];
-
-    for (const path of paths) {
-      try {
-        const response = await fetch(path);
-        if (response.ok) {
-          const data = await response.json();
-          console.log(`✅ Loaded exercises from ${path}:`, data.length);
-          return data;
-        }
-      } catch (e) {
-        console.log(`⚠️ Path ${path} not found`);
-      }
+    // Try to fetch from db.json - this has hundreds of exercises with GIFs
+    const response = await fetch('/db.json');
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`✅ Loaded exercises from db.json: ${data.length} exercises`);
+      return data;
     }
   } catch (error) {
     console.error('❌ Error loading db.json:', error);
@@ -332,6 +322,28 @@ const selectExercisesForDay = ({
 
     availableExercises = exercises.filter(ex => {
       const exEquip = (ex.equipment || '').toLowerCase();
+      const exName = (ex.name || '').toLowerCase();
+      
+      // Exclude exercises that require specific equipment not selected
+      // Even if marked as "body weight", some exercises need bars/equipment
+      const requiresDipBar = (exName.includes('dip') && !exName.includes('bench dip') && !exName.includes('floor dip')) || 
+                             exName.includes('parallel bar');
+      const requiresPullupBar = exName.includes('pull-up') || exName.includes('pullup') || exName.includes('chin-up');
+      const requiresBarbell = exEquip.includes('barbell') && !allowedEquipment.has('barbell');
+      const requiresCable = exEquip.includes('cable') && !allowedEquipment.has('cable');
+      const requiresMachine = exEquip.includes('machine') && !allowedEquipment.has('leverage machine');
+      const requiresWeighted = exEquip.includes('weighted') && !allowedEquipment.has('barbell') && !allowedEquipment.has('dumbbell');
+      
+      // If user only has body weight and dumbbells, exclude exercises needing bars
+      if (allowedEquipment.has('body weight') && allowedEquipment.size === 1) {
+        if (requiresDipBar || requiresPullupBar) return false;
+      }
+      
+      if (requiresDipBar || requiresPullupBar || requiresBarbell || requiresCable || requiresMachine || requiresWeighted) {
+        return false;
+      }
+      
+      // Check if exercise equipment is in allowed list
       return Array.from(allowedEquipment).some(allowed => exEquip.includes(allowed));
     });
   }
@@ -374,7 +386,8 @@ const selectExercisesForDay = ({
     exercises: prioritized,
     fitnessLevel,
     primaryGoal,
-    dayName
+    dayName,
+    usedExercises
   });
 };
 
@@ -410,7 +423,43 @@ const prioritizeWeakPoints = (exercises, weakPoints) => {
   });
 };
 
-const buildDayWorkout = ({ exercises, fitnessLevel, primaryGoal, dayName }) => {
+const isCompoundExercise = (exerciseName) => {
+  const compoundKeywords = [
+    'squat', 'deadlift', 'bench press', 'row', 'pull-up', 'pullup',
+    'dip', 'press', 'clean', 'snatch', 'thruster', 'lunge', 'step-up',
+    'leg press', 'hack squat', 'smith machine squat'
+  ];
+  
+  const name = exerciseName.toLowerCase();
+  return compoundKeywords.some(keyword => name.includes(keyword));
+};
+
+const getExerciseVariant = (exerciseName) => {
+  // Extract the base movement (e.g., "bench press" from "barbell bench press")
+  const name = exerciseName.toLowerCase();
+  
+  // Remove equipment prefixes
+  let variant = name
+    .replace(/^(barbell|dumbbell|machine|cable|kettlebell|smith machine|leverage machine|ez)\s+/i, '')
+    .replace(/\s+(barbell|dumbbell|machine|cable|kettlebell)$/i, '');
+  
+  // Normalize variations
+  if (variant.includes('bench press')) return 'bench press';
+  if (variant.includes('row')) return 'row';
+  if (variant.includes('squat')) return 'squat';
+  if (variant.includes('deadlift')) return 'deadlift';
+  if (variant.includes('pull')) return 'pull';
+  if (variant.includes('press')) return 'press';
+  if (variant.includes('curl')) return 'curl';
+  if (variant.includes('raise')) return 'raise';
+  if (variant.includes('dip')) return 'dip';
+  if (variant.includes('crunch')) return 'crunch';
+  if (variant.includes('plank')) return 'plank';
+  
+  return variant;
+};
+
+const buildDayWorkout = ({ exercises, fitnessLevel, primaryGoal, dayName, usedExercises }) => {
   const volumeMap = {
     beginner: 4,
     intermediate: 5,
@@ -419,16 +468,39 @@ const buildDayWorkout = ({ exercises, fitnessLevel, primaryGoal, dayName }) => {
 
   const maxExercises = volumeMap[fitnessLevel];
   
-  // Shuffle exercises to get variety, then remove duplicates by name and limit to max
-  const shuffled = exercises.sort(() => Math.random() - 0.5);
-  const seen = new Set();
-  const uniqueExercises = [];
+  // Prioritize compound exercises first, then isolation
+  const compounds = exercises.filter(ex => isCompoundExercise(ex.name));
+  const isolations = exercises.filter(ex => !isCompoundExercise(ex.name));
   
-  for (const exercise of shuffled) {
-    if (!seen.has(exercise.name) && uniqueExercises.length < maxExercises) {
+  // Combine: compounds first (for neuromuscular priority), then isolations
+  const prioritized = [...compounds, ...isolations];
+  
+  // Remove duplicates by name AND by exercise variant to avoid similar exercises
+  // BUT allow the same exercise if it's a compound and we need more volume
+  const seen = new Set();
+  const variantsSeen = new Set();
+  const uniqueExercises = [];
+  let compoundCount = 0;
+  
+  for (const exercise of prioritized) {
+    const variant = getExerciseVariant(exercise.name);
+    const isCompound = isCompoundExercise(exercise.name);
+    
+    // For compounds: allow up to 2 of the same exercise (e.g., bench press with different rep ranges)
+    // For isolations: only allow one variant per movement
+    if (isCompound && seen.has(exercise.name) && compoundCount < 2) {
+      // Allow this compound exercise again
+      uniqueExercises.push(exercise);
+      compoundCount++;
+    } else if (!seen.has(exercise.name) && !variantsSeen.has(variant)) {
+      // New exercise or variant
       seen.add(exercise.name);
+      variantsSeen.add(variant);
+      if (isCompound) compoundCount = 1;
       uniqueExercises.push(exercise);
     }
+    
+    if (uniqueExercises.length >= maxExercises) break;
   }
 
   // If we don't have enough exercises, log a warning
@@ -436,47 +508,89 @@ const buildDayWorkout = ({ exercises, fitnessLevel, primaryGoal, dayName }) => {
     console.warn(`Only found ${uniqueExercises.length} unique exercises for ${dayName}, needed ${maxExercises}`);
   }
 
-  return uniqueExercises.map((exercise, index) => ({
-    order: index + 1,
-    name: exercise.name,
-    bodyPart: exercise.bodyPart,
-    target: exercise.target,
-    equipment: exercise.equipment,
-    gifUrl: exercise.gifUrl || `https://via.placeholder.com/300x300?text=${encodeURIComponent(exercise.name)}`,
-    sets: getSetCount(fitnessLevel, primaryGoal, index),
-    reps: getRepRange(fitnessLevel, primaryGoal, index),
-    rest: getRestPeriod(fitnessLevel, index),
-    notes: getExerciseNotes(fitnessLevel, exercise.name)
-  }));
+  return uniqueExercises.map((exercise, index) => {
+    const isCompound = isCompoundExercise(exercise.name);
+    
+    return {
+      order: index + 1,
+      name: exercise.name,
+      bodyPart: exercise.bodyPart,
+      target: exercise.target,
+      equipment: exercise.equipment,
+      gifUrl: exercise.gifUrl || `https://via.placeholder.com/300x300?text=${encodeURIComponent(exercise.name)}`,
+      sets: getSetCount(fitnessLevel, primaryGoal, index, isCompound),
+      reps: getRepRange(fitnessLevel, primaryGoal, index, isCompound),
+      rest: getRestPeriod(fitnessLevel, primaryGoal, isCompound),
+      notes: getExerciseNotes(fitnessLevel, exercise.name),
+      isCompound
+    };
+  });
 };
 
-const getSetCount = (fitnessLevel, primaryGoal, exerciseIndex) => {
-  if (fitnessLevel === 'beginner') {
-    return exerciseIndex === 0 ? 3 : 2;
-  } else if (fitnessLevel === 'intermediate') {
-    return exerciseIndex < 2 ? 4 : 3;
-  } else {
-    return exerciseIndex < 2 ? 5 : 4;
+const getSetCount = (fitnessLevel, primaryGoal, exerciseIndex, isCompound) => {
+  // Compound movements get more sets than isolation
+  const compoundSets = {
+    beginner: 3,
+    intermediate: 4,
+    advanced: 5
+  };
+  
+  const isolationSets = {
+    beginner: 2,
+    intermediate: 3,
+    advanced: 3
+  };
+
+  const baseSet = isCompound ? compoundSets[fitnessLevel] : isolationSets[fitnessLevel];
+  
+  // Strength goals need more sets for heavy work
+  if (primaryGoal === 'strength' && isCompound) {
+    return baseSet + 1;
   }
+  
+  return baseSet;
 };
 
-const getRepRange = (fitnessLevel, primaryGoal, exerciseIndex) => {
+const getRepRange = (fitnessLevel, primaryGoal, exerciseIndex, isCompound) => {
+  // Goal-specific rep ranges
   const repRanges = {
-    strength: { beginner: '6-8', intermediate: '3-5', advanced: '1-5' },
+    strength: { beginner: '5-8', intermediate: '3-6', advanced: '1-5' },
     hypertrophy: { beginner: '8-12', intermediate: '8-12', advanced: '6-12' },
     endurance: { beginner: '12-15', intermediate: '12-15', advanced: '10-15' },
-    fatLoss: { beginner: '10-12', intermediate: '8-12', advanced: '6-12' },
+    fatLoss: { beginner: '10-12', intermediate: '8-12', advanced: '8-12' },
     general: { beginner: '8-12', intermediate: '8-12', advanced: '6-12' }
   };
 
   return repRanges[primaryGoal][fitnessLevel];
 };
 
-const getRestPeriod = (fitnessLevel, exerciseIndex) => {
-  if (exerciseIndex === 0) {
-    return fitnessLevel === 'beginner' ? '2-3 min' : fitnessLevel === 'intermediate' ? '1.5-2 min' : '2-3 min';
-  }
-  return fitnessLevel === 'beginner' ? '1-2 min' : '1-1.5 min';
+const getRestPeriod = (fitnessLevel, primaryGoal, isCompound) => {
+  // Rest periods vary by goal and exercise type
+  const restMap = {
+    strength: {
+      compound: { beginner: '2-3 min', intermediate: '2-3 min', advanced: '3-5 min' },
+      isolation: { beginner: '1-2 min', intermediate: '1.5-2 min', advanced: '1.5-2 min' }
+    },
+    hypertrophy: {
+      compound: { beginner: '1.5-2 min', intermediate: '1.5-2 min', advanced: '2-3 min' },
+      isolation: { beginner: '60-90 sec', intermediate: '60-90 sec', advanced: '90-120 sec' }
+    },
+    endurance: {
+      compound: { beginner: '60-90 sec', intermediate: '60-90 sec', advanced: '90-120 sec' },
+      isolation: { beginner: '45-60 sec', intermediate: '45-60 sec', advanced: '60-90 sec' }
+    },
+    fatLoss: {
+      compound: { beginner: '60-90 sec', intermediate: '60-90 sec', advanced: '90-120 sec' },
+      isolation: { beginner: '45-60 sec', intermediate: '45-60 sec', advanced: '60-90 sec' }
+    },
+    general: {
+      compound: { beginner: '1.5-2 min', intermediate: '1.5-2 min', advanced: '2-3 min' },
+      isolation: { beginner: '60-90 sec', intermediate: '60-90 sec', advanced: '90-120 sec' }
+    }
+  };
+
+  const exerciseType = isCompound ? 'compound' : 'isolation';
+  return restMap[primaryGoal][exerciseType][fitnessLevel];
 };
 
 const getExerciseNotes = (fitnessLevel, exerciseName) => {
@@ -512,34 +626,41 @@ const getExerciseNotes = (fitnessLevel, exerciseName) => {
 };
 
 const generateProgressionPlan = ({ fitnessLevel, primaryGoal, progressionStrategy, daysPerWeek }) => {
-  const strategies = {
-    linearProgression: {
-      name: 'Linear Progression',
-      description: 'Add weight each week',
+  // Goal-specific progression strategies
+  const progressionMap = {
+    strength: {
+      name: 'Linear Progression (Strength)',
+      description: 'Add weight each week when you hit all reps',
       frequency: 'Weekly',
-      details: 'Increase weight by 5-10 lbs when you hit all reps for all sets'
+      details: 'Increase weight by 5-10 lbs on compounds, 2-5 lbs on isolations when you complete all sets × reps'
     },
-    doubleProgression: {
-      name: 'Double Progression',
+    hypertrophy: {
+      name: 'Double Progression (Hypertrophy)',
       description: 'Increase reps first, then weight',
       frequency: 'Every 2-3 weeks',
-      details: 'Hit upper rep range, then increase weight and drop to lower rep range'
+      details: 'Hit upper rep range (12 reps), then increase weight by 5-10 lbs and drop to lower rep range (8 reps)'
     },
-    periodization: {
-      name: 'Periodization',
-      description: 'Vary intensity and volume in cycles',
-      frequency: 'Every 4-6 weeks',
-      details: 'Cycle through strength, hypertrophy, and endurance phases'
+    endurance: {
+      name: 'Volume Progression (Endurance)',
+      description: 'Increase reps or reduce rest periods',
+      frequency: 'Every 2 weeks',
+      details: 'Add 1-2 reps per set, or reduce rest periods by 15 seconds'
     },
-    rpe: {
-      name: 'RPE-Based',
-      description: 'Train based on perceived exertion',
-      frequency: 'Per session',
-      details: 'Aim for 6-8 RPE (Rate of Perceived Exertion) on main lifts'
+    fatLoss: {
+      name: 'Density Progression (Fat Loss)',
+      description: 'Do more work in same time',
+      frequency: 'Every 2 weeks',
+      details: 'Reduce rest periods by 15 seconds, or add 1 rep per set while maintaining weight'
+    },
+    general: {
+      name: 'Flexible Progression',
+      description: 'Mix of rep and weight increases',
+      frequency: 'Every 2-3 weeks',
+      details: 'Increase weight when hitting upper rep range, or add reps if weight increases stall'
     }
   };
 
-  return strategies[progressionStrategy] || strategies.linearProgression;
+  return progressionMap[primaryGoal] || progressionMap.general;
 };
 
 const generateGuidelines = ({ fitnessLevel, primaryGoal, injuries, weakPoints, sessionDuration }) => {
@@ -560,19 +681,30 @@ const generateGuidelines = ({ fitnessLevel, primaryGoal, injuries, weakPoints, s
     guidelines.push('Deload every 4-6 weeks to prevent overtraining');
   }
 
-  // Goal-specific guidelines
+  // Goal-specific guidelines with intensity zones
   if (primaryGoal === 'strength') {
     guidelines.push('Prioritize compound movements (squat, bench, deadlift)');
+    guidelines.push('Use heavy weight: 85%+ of your 1RM (weight you can lift once)');
     guidelines.push('Rest 2-3 minutes between heavy sets');
-    guidelines.push('Aim for 3-5 reps on main lifts');
+    guidelines.push('Aim for 3-6 reps on main lifts');
+    guidelines.push('Quality over quantity - stop if form breaks down');
   } else if (primaryGoal === 'hypertrophy') {
     guidelines.push('Maintain constant tension on the muscle');
+    guidelines.push('Use moderate weight: 67-85% of your 1RM');
     guidelines.push('Use 8-12 rep range for optimal muscle growth');
     guidelines.push('Include both compound and isolation exercises');
+    guidelines.push('Rest 60-90 seconds between sets for isolation work');
+  } else if (primaryGoal === 'endurance') {
+    guidelines.push('Use lighter weight: 50-70% of your 1RM');
+    guidelines.push('Higher reps (12-15) with shorter rest periods');
+    guidelines.push('Focus on muscular endurance and work capacity');
+    guidelines.push('Rest 45-60 seconds between sets');
   } else if (primaryGoal === 'fatLoss') {
     guidelines.push('Maintain high protein intake (0.8-1g per lb bodyweight)');
+    guidelines.push('Use moderate weight: 60-80% of your 1RM');
     guidelines.push('Include 2-3 cardio sessions per week');
     guidelines.push('Create a moderate caloric deficit (300-500 cal/day)');
+    guidelines.push('Keep rest periods short (60-90 sec) to maintain elevated heart rate');
   }
 
   // Injury considerations

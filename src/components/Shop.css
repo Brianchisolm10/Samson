@@ -1,0 +1,394 @@
+.shop-page {
+  background: #f5f5f5;
+  padding-bottom: 0;
+}
+
+.shop-hero {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  color: white;
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.shop-hero-title {
+  font-size: 42px;
+  font-weight: 400;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+
+.shop-hero-subtitle {
+  font-size: 16px;
+  color: #ddd;
+  margin: 0;
+  font-weight: 300;
+}
+
+.shop-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 40px 40px;
+}
+
+/* Tab Navigation */
+.shop-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 40px;
+}
+
+.tab-btn {
+  padding: 16px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+  color: #333;
+}
+
+.tab-btn.active {
+  color: #333;
+  border-bottom-color: #333;
+}
+
+/* Tab Content */
+.tab-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.content-header {
+  margin-bottom: 32px;
+}
+
+.content-header h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.content-header p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Items Grid */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.item-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.item-card:hover {
+  border-color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.item-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.item-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  white-space: nowrap;
+}
+
+.item-description {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.item-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: #999;
+  font-weight: 500;
+}
+
+.item-btn {
+  padding: 10px 16px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.item-btn:hover {
+  background: #555;
+}
+
+/* Donate Section */
+.donate-section {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 40px;
+}
+
+.donate-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.donate-header h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.donate-header p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  font-weight: 300;
+}
+
+.donate-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.donate-info h3,
+.donate-form h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 16px 0;
+}
+
+.donate-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.donate-benefits li {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  padding-left: 24px;
+  position: relative;
+  font-weight: 400;
+}
+
+.donate-benefits li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #333;
+  font-weight: 600;
+}
+
+.accepted-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.accepted-item {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #333;
+  font-weight: 500;
+}
+
+.donation-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  color: #333;
+  font-weight: 400;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #999;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.donate-btn {
+  padding: 12px 24px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.donate-btn:hover {
+  background: #555;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .items-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .shop-hero {
+    padding: 40px 20px;
+  }
+
+  .shop-hero-title {
+    font-size: 32px;
+  }
+
+  .shop-container {
+    padding: 30px 20px;
+  }
+
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .item-card {
+    padding: 12px;
+  }
+
+  .donate-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .accepted-items {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-tabs {
+    gap: 0;
+  }
+
+  .tab-btn {
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-tabs {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 0;
+  }
+
+  .tab-btn.active {
+    border-bottom: 2px solid #333;
+  }
+
+  .donate-section {
+    padding: 24px;
+  }
+}

@@ -6,17 +6,17 @@ function Hero({ onToolClick }) {
     <>
       <nav className="top-nav">
         <div className="nav-left">
-          <a href="#features" className="nav-link">Why AFYA</a>
+          <a href="/why-afya" className="nav-link">Why AFYA</a>
           <a href="/hub" className="nav-link">The Hub</a>
-          <a href="mailto:afya@theafya.org" className="nav-link">Contact</a>
+          <a href="/education" className="nav-link">Education</a>
         </div>
         <div className="nav-center">
-          <span className="logo">AFYA</span>
+          <a href="/" className="logo">AFYA</a>
         </div>
         <div className="nav-right">
-          <a href="/education" className="nav-link">Education</a>
           <a href="/community" className="nav-link">Community</a>
-          <a href="/accessibility" className="nav-link">Accessible</a>
+          <a href="/shop" className="nav-link">Shop</a>
+          <a href="/contact" className="nav-link">Support</a>
         </div>
       </nav>
       <section className="hero">

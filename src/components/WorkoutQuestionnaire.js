@@ -1,19 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './WorkoutQuestionnaire.css';
+import WorkoutDisplay from './WorkoutDisplay';
 import InfoTooltip from './InfoTooltip';
+import { formatEquipment } from '../utils/formatters';
 
 function WorkoutQuestionnaire({ onComplete }) {
+  const navigate = useNavigate();
   const [step, setStep] = useState('initial');
   const [responses, setResponses] = useState({});
-  const [generatedWorkout, setGeneratedWorkout] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [workout, setWorkout] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(0);
+  const [expandedSections, setExpandedSections] = useState({
+    warmup: true,
+    cooldown: false,
+    guidelines: true,
+    progression: true
+  });
 
-  // Initial quick assessment - determines complexity level
   const initialQuestions = [
     {
       id: 'fitnessLevel',
       question: 'What\'s your current fitness level?',
-      explanation: 'Your fitness level helps us choose the right exercises and volume. Beginners need simpler movements and more recovery, while advanced lifters can handle complex programming.',
+      explanation: 'Your fitness level helps us choose the right exercises and volume.',
       type: 'radio',
       options: [
         { value: 'beginner', label: 'Just starting out' },
@@ -24,7 +34,7 @@ function WorkoutQuestionnaire({ onComplete }) {
     {
       id: 'primaryGoal',
       question: 'What\'s your main goal?',
-      explanation: 'Your goal determines exercise selection, rep ranges, and rest periods. Building muscle requires different training than building strength or losing fat.',
+      explanation: 'Your goal determines exercise selection, rep ranges, and rest periods.',
       type: 'radio',
       options: [
         { value: 'strength', label: 'Build Strength' },
@@ -37,7 +47,7 @@ function WorkoutQuestionnaire({ onComplete }) {
     {
       id: 'daysPerWeek',
       question: 'How many days per week can you train?',
-      explanation: 'Training frequency affects how we structure your program. More days allows for specialized splits, while fewer days means full-body sessions.',
+      explanation: 'Training frequency affects how we structure your program.',
       type: 'radio',
       options: [
         { value: 3, label: '3 days' },
@@ -48,254 +58,100 @@ function WorkoutQuestionnaire({ onComplete }) {
     }
   ];
 
-  // Intermediate questions - based on fitness level
-  const intermediateQuestions = {
-    beginner: [
-      {
-        id: 'equipment',
-        question: 'What equipment do you have access to?',
-        explanation: 'Equipment availability determines which exercises we can include. You can select multiple options if you have access to a gym or home setup.',
-        type: 'checkbox',
-        options: [
-          { value: 'barbell', label: 'Barbell' },
-          { value: 'dumbbell', label: 'Dumbbells' },
-          { value: 'leverage machine', label: 'Machines' },
-          { value: 'cable', label: 'Cable Machine' },
-          { value: 'kettlebell', label: 'Kettlebell' },
-          { value: 'band', label: 'Resistance Band' },
-          { value: 'body weight', label: 'Bodyweight' }
-        ]
-      },
-      {
-        id: 'sessionDuration',
-        question: 'How long can each session be?',
-        explanation: 'Session length affects how many exercises we include. Shorter sessions focus on key movements, while longer sessions allow more volume.',
-        type: 'radio',
-        options: [
-          { value: 30, label: '20-30 minutes' },
-          { value: 45, label: '30-45 minutes' },
-          { value: 60, label: '45-60 minutes' }
-        ]
-      }
-    ],
-    intermediate: [
-      {
-        id: 'equipment',
-        question: 'What equipment do you have access to?',
-        explanation: 'Equipment availability determines which exercises we can include. You can select multiple options if you have access to a gym or home setup.',
-        type: 'checkbox',
-        options: [
-          { value: 'barbell', label: 'Barbell' },
-          { value: 'dumbbell', label: 'Dumbbells' },
-          { value: 'leverage machine', label: 'Machines' },
-          { value: 'cable', label: 'Cable Machine' },
-          { value: 'kettlebell', label: 'Kettlebell' },
-          { value: 'band', label: 'Resistance Band' },
-          { value: 'body weight', label: 'Bodyweight' }
-        ]
-      },
-      {
-        id: 'sessionDuration',
-        question: 'How long can each session be?',
-        explanation: 'Session length affects how many exercises we include. Shorter sessions focus on key movements, while longer sessions allow more volume.',
-        type: 'radio',
-        options: [
-          { value: 30, label: '20-30 minutes' },
-          { value: 45, label: '30-45 minutes' },
-          { value: 60, label: '45-60 minutes' },
-          { value: 90, label: '60-90 minutes' }
-        ]
-      },
-      {
-        id: 'trainingStyle',
-        question: 'Preferred training style?',
-        explanation: 'Full Body hits all muscles each session. Upper/Lower splits separate upper and lower body. Push/Pull/Legs groups movements by function.',
-        type: 'radio',
-        options: [
-          { value: 'fullBody', label: 'Full Body (3-4x/week)' },
-          { value: 'upperLower', label: 'Upper/Lower Split' },
-          { value: 'ppl', label: 'Push/Pull/Legs' }
-        ]
-      }
-    ],
-    advanced: [
-      {
-        id: 'equipment',
-        question: 'What equipment do you have access to?',
-        explanation: 'Equipment availability determines which exercises we can include. You can select multiple options if you have access to a gym or home setup.',
-        type: 'checkbox',
-        options: [
-          { value: 'barbell', label: 'Barbell' },
-          { value: 'dumbbell', label: 'Dumbbells' },
-          { value: 'leverage machine', label: 'Machines' },
-          { value: 'cable', label: 'Cable Machine' },
-          { value: 'kettlebell', label: 'Kettlebell' },
-          { value: 'band', label: 'Resistance Band' },
-          { value: 'body weight', label: 'Bodyweight' }
-        ]
-      },
-      {
-        id: 'sessionDuration',
-        question: 'How long can each session be?',
-        explanation: 'Session length affects how many exercises we include. Shorter sessions focus on key movements, while longer sessions allow more volume.',
-        type: 'radio',
-        options: [
-          { value: 45, label: '45-60 minutes' },
-          { value: 60, label: '60-75 minutes' },
-          { value: 90, label: '75-90 minutes' },
-          { value: 120, label: '90+ minutes' }
-        ]
-      },
-      {
-        id: 'trainingStyle',
-        question: 'Preferred training split?',
-        explanation: 'Upper/Lower allows high frequency. Push/Pull/Legs is optimal for hypertrophy. Body Part splits allow deep focus on individual muscles.',
-        type: 'radio',
-        options: [
-          { value: 'upperLower', label: 'Upper/Lower Split' },
-          { value: 'ppl', label: 'Push/Pull/Legs' },
-          { value: 'bodyPart', label: 'Body Part Split' },
-          { value: 'custom', label: 'Custom Periodization' }
-        ]
-      },
-      {
-        id: 'experience',
-        question: 'Any specific experience or focus?',
-        explanation: 'Your training background helps us tailor programming. Powerlifters need strength focus, bodybuilders need hypertrophy emphasis, etc.',
-        type: 'checkbox',
-        options: [
-          { value: 'powerlifting', label: 'Powerlifting' },
-          { value: 'bodybuilding', label: 'Bodybuilding' },
-          { value: 'athletic', label: 'Athletic Performance' },
-          { value: 'functional', label: 'Functional Fitness' }
-        ]
-      }
-    ]
-  };
+  const intermediateQuestions = [
+    {
+      id: 'equipment',
+      question: 'What equipment do you have access to?',
+      explanation: 'Equipment availability determines which exercises we can include.',
+      type: 'checkbox',
+      options: [
+        { value: 'barbell', label: 'Barbell' },
+        { value: 'dumbbell', label: 'Dumbbells' },
+        { value: 'leverage machine', label: 'Machines' },
+        { value: 'cable', label: 'Cable Machine' },
+        { value: 'kettlebell', label: 'Kettlebell' },
+        { value: 'band', label: 'Resistance Band' },
+        { value: 'body weight', label: 'Bodyweight' }
+      ]
+    },
+    {
+      id: 'sessionDuration',
+      question: 'How long can each session be?',
+      explanation: 'Session length affects how many exercises we include.',
+      type: 'radio',
+      options: [
+        { value: 30, label: '20-30 minutes' },
+        { value: 45, label: '30-45 minutes' },
+        { value: 60, label: '45-60 minutes' },
+        { value: 90, label: '60-90 minutes' }
+      ]
+    },
+    {
+      id: 'trainingStyle',
+      question: 'Preferred training style?',
+      explanation: 'Full Body hits all muscles each session. Upper/Lower separates upper and lower body.',
+      type: 'radio',
+      options: [
+        { value: 'fullBody', label: 'Full Body' },
+        { value: 'upperLower', label: 'Upper/Lower Split' },
+        { value: 'ppl', label: 'Push/Pull/Legs' },
+        { value: 'bodyPart', label: 'Body Part Split' }
+      ]
+    }
+  ];
 
-  // Advanced refinement questions - infinite iterations
-  const refinementQuestions = {
-    beginner: [
-      {
-        id: 'injuries',
-        question: 'Any injuries or limitations we should know about?',
-        explanation: 'Telling us about injuries helps us modify exercises to keep you safe. We\'ll suggest alternatives that work around your limitations.',
-        type: 'checkbox',
-        options: [
-          { value: 'none', label: 'No injuries or limitations' },
-          { value: 'lowerBack', label: 'Lower back pain' },
-          { value: 'shoulders', label: 'Shoulder issues' },
-          { value: 'knees', label: 'Knee pain' },
-          { value: 'wrists', label: 'Wrist pain' },
-          { value: 'other', label: 'Other (will ask for details)' }
-        ]
-      }
-    ],
-    intermediate: [
-      {
-        id: 'injuries',
-        question: 'Any injuries or limitations?',
-        explanation: 'Telling us about injuries helps us modify exercises to keep you safe. We\'ll suggest alternatives that work around your limitations.',
-        type: 'checkbox',
-        options: [
-          { value: 'none', label: 'No injuries or limitations' },
-          { value: 'lowerBack', label: 'Lower back pain' },
-          { value: 'shoulders', label: 'Shoulder issues' },
-          { value: 'knees', label: 'Knee pain' },
-          { value: 'wrists', label: 'Wrist pain' },
-          { value: 'elbows', label: 'Elbow pain' },
-          { value: 'other', label: 'Other (will ask for details)' }
-        ]
-      },
-      {
-        id: 'weakPoints',
-        question: 'Weak points to prioritize?',
-        explanation: 'We\'ll place these muscle groups earlier in your workouts when you\'re fresh, and include more volume for them.',
-        type: 'checkbox',
-        options: [
-          { value: 'chest', label: 'Chest' },
-          { value: 'back', label: 'Back' },
-          { value: 'shoulders', label: 'Shoulders' },
-          { value: 'arms', label: 'Arms' },
-          { value: 'legs', label: 'Legs' },
-          { value: 'core', label: 'Core' }
-        ]
-      }
-    ],
-    advanced: [
-      {
-        id: 'injuries',
-        question: 'Any injuries or movement restrictions?',
-        explanation: 'Telling us about injuries helps us modify exercises to keep you safe. We\'ll suggest alternatives that work around your limitations.',
-        type: 'checkbox',
-        options: [
-          { value: 'none', label: 'No injuries or limitations' },
-          { value: 'lowerBack', label: 'Lower back pain' },
-          { value: 'shoulders', label: 'Shoulder issues' },
-          { value: 'knees', label: 'Knee pain' },
-          { value: 'wrists', label: 'Wrist pain' },
-          { value: 'elbows', label: 'Elbow pain' },
-          { value: 'hips', label: 'Hip pain' },
-          { value: 'ankles', label: 'Ankle pain' },
-          { value: 'other', label: 'Other (will ask for details)' }
-        ]
-      },
-      {
-        id: 'weakPoints',
-        question: 'Weak points or lagging muscle groups?',
-        explanation: 'We\'ll place these muscle groups earlier in your workouts when you\'re fresh, and include more volume for them.',
-        type: 'checkbox',
-        options: [
-          { value: 'chest', label: 'Chest' },
-          { value: 'back', label: 'Back' },
-          { value: 'shoulders', label: 'Shoulders' },
-          { value: 'biceps', label: 'Biceps' },
-          { value: 'triceps', label: 'Triceps' },
-          { value: 'forearms', label: 'Forearms' },
-          { value: 'quads', label: 'Quads' },
-          { value: 'hamstrings', label: 'Hamstrings' },
-          { value: 'glutes', label: 'Glutes' },
-          { value: 'calves', label: 'Calves' },
-          { value: 'core', label: 'Core' }
-        ]
-      },
-      {
-        id: 'progressionStrategy',
-        question: 'Preferred progression method?',
-        explanation: 'Linear adds weight each week. Double Progression increases reps first. Periodization cycles intensity. RPE trains by feel.',
-        type: 'radio',
-        options: [
-          { value: 'linearProgression', label: 'Linear Progression' },
-          { value: 'doubleProgression', label: 'Double Progression' },
-          { value: 'periodization', label: 'Periodization' },
-          { value: 'rpe', label: 'RPE-Based' }
-        ]
-      }
-    ]
-  };
+  const refinementQuestions = [
+    {
+      id: 'injuries',
+      question: 'Any injuries or limitations?',
+      explanation: 'Telling us about injuries helps us modify exercises to keep you safe.',
+      type: 'checkbox',
+      options: [
+        { value: 'none', label: 'No injuries or limitations' },
+        { value: 'lowerBack', label: 'Lower back pain' },
+        { value: 'shoulders', label: 'Shoulder issues' },
+        { value: 'knees', label: 'Knee pain' },
+        { value: 'wrists', label: 'Wrist pain' },
+        { value: 'elbows', label: 'Elbow pain' },
+        { value: 'hips', label: 'Hip pain' }
+      ]
+    },
+    {
+      id: 'weakPoints',
+      question: 'Weak points or lagging muscle groups?',
+      explanation: 'We\'ll place these muscle groups earlier in your workouts when you\'re fresh.',
+      type: 'checkbox',
+      options: [
+        { value: 'chest', label: 'Chest' },
+        { value: 'back', label: 'Back' },
+        { value: 'shoulders', label: 'Shoulders' },
+        { value: 'biceps', label: 'Biceps' },
+        { value: 'triceps', label: 'Triceps' },
+        { value: 'forearms', label: 'Forearms' },
+        { value: 'quads', label: 'Quads' },
+        { value: 'hamstrings', label: 'Hamstrings' },
+        { value: 'glutes', label: 'Glutes' },
+        { value: 'calves', label: 'Calves' },
+        { value: 'core', label: 'Core' }
+      ]
+    }
+  ];
 
-  const handleInitialResponse = (questionId, value) => {
-    setResponses(prev => ({
+  const handleResponse = (questionId, value) => {
+    setResponses((prev) => ({
       ...prev,
-      [questionId]: value
+      [questionId]: value,
     }));
   };
 
   const handleCheckboxChange = (questionId, value) => {
-    setResponses(prev => ({
+    setResponses((prev) => ({
       ...prev,
       [questionId]: Array.isArray(prev[questionId])
         ? prev[questionId].includes(value)
-          ? prev[questionId].filter(v => v !== value)
+          ? prev[questionId].filter((v) => v !== value)
           : [...prev[questionId], value]
-        : [value]
-    }));
-  };
-
-  const handleTextChange = (questionId, value) => {
-    setResponses(prev => ({
-      ...prev,
-      [questionId]: value
+        : [value],
     }));
   };
 
@@ -304,38 +160,31 @@ function WorkoutQuestionnaire({ onComplete }) {
   };
 
   const canProceedIntermediate = () => {
-    const level = responses.fitnessLevel;
-    const questions = intermediateQuestions[level];
-    return questions.every(q => {
-      if (q.type === 'checkbox') {
-        return Array.isArray(responses[q.id]) && responses[q.id].length > 0;
-      }
-      return responses[q.id];
-    });
+    return (
+      Array.isArray(responses.equipment) &&
+      responses.equipment.length > 0 &&
+      responses.sessionDuration &&
+      responses.trainingStyle
+    );
   };
 
   const canProceedRefinement = () => {
-    const level = responses.fitnessLevel;
-    const questions = refinementQuestions[level];
-    return questions.every(q => {
-      if (q.type === 'checkbox') {
-        return Array.isArray(responses[q.id]) && responses[q.id].length > 0;
-      }
-      if (q.type === 'text') {
-        return responses[q.id] !== undefined && responses[q.id] !== '';
-      }
-      return true;
-    });
+    return (
+      Array.isArray(responses.injuries) &&
+      responses.injuries.length > 0 &&
+      Array.isArray(responses.weakPoints) &&
+      responses.weakPoints.length > 0
+    );
   };
 
-  const generateWorkout = async () => {
+  const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      const workout = buildWorkoutProgram(responses);
-      setGeneratedWorkout(workout);
-      setStep('complete');
+      const { generateDetailedWorkout } = await import('../utils/workoutEngine');
+      const program = await generateDetailedWorkout(responses);
+      setWorkout(program);
       if (onComplete) {
-        onComplete(workout, responses);
+        onComplete(program, responses);
       }
     } catch (error) {
       console.error('Error generating workout:', error);
@@ -344,80 +193,10 @@ function WorkoutQuestionnaire({ onComplete }) {
     }
   };
 
-  const buildWorkoutProgram = (data) => {
-    // Core program structure based on responses
-    const program = {
-      clientProfile: {
-        fitnessLevel: data.fitnessLevel,
-        goal: data.primaryGoal,
-        daysPerWeek: data.daysPerWeek,
-        equipment: data.equipment || [],
-        sessionDuration: data.sessionDuration || 45,
-        trainingStyle: data.trainingStyle || 'fullBody',
-        injuries: data.injuries || 'None',
-        weakPoints: data.weakPoints || [],
-        experience: data.experience || []
-      },
-      workoutSplit: generateSplit(data),
-      progressionStrategy: data.progressionStrategy || 'linearProgression',
-      notes: generateProgramNotes(data)
-    };
-    return program;
-  };
-
-  const generateSplit = (data) => {
-    const { fitnessLevel, daysPerWeek, trainingStyle, primaryGoal } = data;
-    
-    // Default splits based on days and level
-    const splits = {
-      3: ['Full Body A', 'Full Body B', 'Full Body C'],
-      4: fitnessLevel === 'beginner' 
-        ? ['Full Body A', 'Full Body B', 'Full Body C', 'Full Body D']
-        : ['Upper A', 'Lower A', 'Upper B', 'Lower B'],
-      5: ['Push', 'Pull', 'Legs', 'Upper', 'Lower'],
-      6: ['Push', 'Pull', 'Legs', 'Push', 'Pull', 'Legs']
-    };
-
-    return splits[daysPerWeek] || splits[3];
-  };
-
-  const generateProgramNotes = (data) => {
-    const notes = [];
-    
-    if (data.fitnessLevel === 'beginner') {
-      notes.push('Focus on form and consistency over weight');
-      notes.push('Rest 2-3 minutes between compound lifts');
-      notes.push('Aim for 8-12 reps per set');
-    } else if (data.fitnessLevel === 'intermediate') {
-      notes.push('Progressive overload is key - track your lifts');
-      notes.push('Vary rep ranges: 6-8 for strength, 8-12 for hypertrophy');
-      notes.push('Rest 1.5-2 minutes between sets');
-    } else {
-      notes.push('Implement periodization for continued progress');
-      notes.push('Track RPE and adjust intensity accordingly');
-      notes.push('Deload every 4-6 weeks');
-    }
-
-    if (data.primaryGoal === 'fatLoss') {
-      notes.push('Maintain protein intake - aim for 0.8-1g per lb bodyweight');
-      notes.push('Include 2-3 cardio sessions per week');
-    }
-
-    if (data.weakPoints && data.weakPoints.length > 0) {
-      notes.push(`Priority areas: ${data.weakPoints.join(', ')}`);
-    }
-
-    return notes;
-  };
-
-  const handleRefinement = () => {
-    // Reset for next iteration but keep core profile
-    setStep('refinement');
-  };
-
-  const handleNewIteration = () => {
-    // Keep the generated workout but allow refinement
-    setStep('refinement');
+  const handleBackToQuiz = () => {
+    setWorkout(null);
+    setStep('initial');
+    setResponses({});
   };
 
   const renderQuestion = (question) => {
@@ -429,14 +208,14 @@ function WorkoutQuestionnaire({ onComplete }) {
               <h3>{question.question}</h3>
             </InfoTooltip>
             <div className="options">
-              {question.options.map(option => (
+              {question.options.map((option) => (
                 <label key={option.value} className="option-label">
                   <input
                     type="radio"
                     name={question.id}
                     value={option.value}
                     checked={responses[question.id] === option.value}
-                    onChange={(e) => handleInitialResponse(question.id, option.value)}
+                    onChange={(e) => handleResponse(question.id, option.value)}
                   />
                   <span>{option.label}</span>
                 </label>
@@ -451,11 +230,14 @@ function WorkoutQuestionnaire({ onComplete }) {
               <h3>{question.question}</h3>
             </InfoTooltip>
             <div className="options">
-              {question.options.map(option => (
+              {question.options.map((option) => (
                 <label key={option.value} className="option-label">
                   <input
                     type="checkbox"
-                    checked={Array.isArray(responses[question.id]) && responses[question.id].includes(option.value)}
+                    checked={
+                      Array.isArray(responses[question.id]) &&
+                      responses[question.id].includes(option.value)
+                    }
                     onChange={() => handleCheckboxChange(question.id, option.value)}
                   />
                   <span>{option.label}</span>
@@ -464,124 +246,308 @@ function WorkoutQuestionnaire({ onComplete }) {
             </div>
           </div>
         );
-      case 'text':
-        return (
-          <div key={question.id} className="question-block">
-            <InfoTooltip explanation={question.explanation}>
-              <h3>{question.question}</h3>
-            </InfoTooltip>
-            <input
-              type="text"
-              placeholder={question.placeholder}
-              value={responses[question.id] || ''}
-              onChange={(e) => handleTextChange(question.id, e.target.value)}
-              className="text-input"
-            />
-          </div>
-        );
       default:
         return null;
     }
   };
 
   return (
-    <div className="questionnaire-container">
-      {step === 'initial' && (
-        <div className="questionnaire-step">
-          <div className="step-header">
-            <h2>Let's Build Your Perfect Workout</h2>
-            <p>Quick assessment - just 3 questions</p>
-          </div>
-          <div className="questions">
-            {initialQuestions.map(q => renderQuestion(q))}
-          </div>
-          <button
-            className="btn-next"
-            onClick={() => setStep('intermediate')}
-            disabled={!canProceedInitial()}
-          >
-            Continue
-          </button>
-        </div>
-      )}
-
-      {step === 'intermediate' && (
-        <div className="questionnaire-step">
-          <div className="step-header">
-            <h2>Customize Your Program</h2>
-            <p>Level: {responses.fitnessLevel}</p>
-          </div>
-          <div className="questions">
-            {intermediateQuestions[responses.fitnessLevel].map(q => renderQuestion(q))}
-          </div>
-          <div className="button-group">
-            <button className="btn-back" onClick={() => setStep('initial')}>Back</button>
-            <button
-              className="btn-next"
-              onClick={() => setStep('refinement')}
-              disabled={!canProceedIntermediate()}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 'refinement' && (
-        <div className="questionnaire-step">
-          <div className="step-header">
-            <h2>Final Details</h2>
-            <p>Help us optimize your program</p>
-          </div>
-          <div className="questions">
-            {refinementQuestions[responses.fitnessLevel].map(q => renderQuestion(q))}
-          </div>
-          <div className="button-group">
-            <button className="btn-back" onClick={() => setStep('intermediate')}>Back</button>
-            <button
-              className="btn-generate"
-              onClick={generateWorkout}
-              disabled={!canProceedRefinement() || isLoading}
-            >
-              {isLoading ? 'Generating...' : 'Generate My Workout'}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 'complete' && generatedWorkout && (
-        <div className="questionnaire-step">
-          <div className="step-header">
-            <h2>Your Personalized Program</h2>
-            <p>Ready to get started</p>
-          </div>
-          <div className="workout-summary">
-            <div className="summary-card">
-              <h3>Program Overview</h3>
-              <ul>
-                <li><strong>Level:</strong> {generatedWorkout.clientProfile.fitnessLevel}</li>
-                <li><strong>Goal:</strong> {generatedWorkout.clientProfile.goal}</li>
-                <li><strong>Days/Week:</strong> {generatedWorkout.clientProfile.daysPerWeek}</li>
-                <li><strong>Session Duration:</strong> {generatedWorkout.clientProfile.sessionDuration} min</li>
-                <li><strong>Split:</strong> {generatedWorkout.workoutSplit.join(' / ')}</li>
-              </ul>
+    <div className={`questionnaire-wrapper ${workout ? 'has-results' : ''}`}>
+      {!workout && (
+        <section className="workout-hero">
+          <div className="workout-hero-content">
+            <h1 className="workout-hero-title">Build Your Workout</h1>
+            <p className="workout-hero-subtitle">Personalized training tailored to your goals</p>
+            
+            <div className="workout-features-list">
+              <div className="workout-feature-item">
+                <span className="workout-feature-icon">✓</span>
+                <span>Personalized Exercise Selection</span>
+              </div>
+              <div className="workout-feature-item">
+                <span className="workout-feature-icon">✓</span>
+                <span>Progressive Overload Plan</span>
+              </div>
+              <div className="workout-feature-item">
+                <span className="workout-feature-icon">✓</span>
+                <span>Injury Modifications Included</span>
+              </div>
+              <div className="workout-feature-item">
+                <span className="workout-feature-icon">✓</span>
+                <span>Instant Results</span>
+              </div>
             </div>
-            <div className="summary-card">
-              <h3>Program Notes</h3>
-              <ul>
-                {generatedWorkout.notes.map((note, idx) => (
-                  <li key={idx}>{note}</li>
-                ))}
-              </ul>
+
+            <button className="workout-back-btn" onClick={() => navigate('/hub')}>← Back to Hub</button>
+          </div>
+
+          <div className="workout-hero-visual">
+            <div className="workout-quiz-container">
+              {step === 'initial' && (
+                <div className="questionnaire-step">
+                  <div className="step-header">
+                    <h2>Build Your Workout</h2>
+                    <p>Quick assessment - just 3 questions</p>
+                  </div>
+                  <div className="questions">
+                    {initialQuestions.map((q) => renderQuestion(q))}
+                  </div>
+                  <button
+                    className="btn-next"
+                    onClick={() => setStep('intermediate')}
+                    disabled={!canProceedInitial()}
+                  >
+                    Continue
+                  </button>
+                </div>
+              )}
+
+              {step === 'intermediate' && (
+                <div className="questionnaire-step">
+                  <div className="step-header">
+                    <h2>Customize Your Program</h2>
+                    <p>Goal: {responses.primaryGoal}</p>
+                  </div>
+                  <div className="questions">
+                    {intermediateQuestions.map((q) => renderQuestion(q))}
+                  </div>
+                  <div className="button-group">
+                    <button className="btn-back" onClick={() => setStep('initial')}>
+                      Back
+                    </button>
+                    <button
+                      className="btn-next"
+                      onClick={() => setStep('refinement')}
+                      disabled={!canProceedIntermediate()}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {step === 'refinement' && (
+                <div className="questionnaire-step">
+                  <div className="step-header">
+                    <h2>Final Details</h2>
+                    <p>Help us optimize your program</p>
+                  </div>
+                  <div className="questions">
+                    {refinementQuestions.map((q) => renderQuestion(q))}
+                  </div>
+                  <div className="button-group">
+                    <button className="btn-back" onClick={() => setStep('intermediate')}>
+                      Back
+                    </button>
+                    <button
+                      className="btn-generate"
+                      onClick={handleGenerate}
+                      disabled={!canProceedRefinement() || isLoading}
+                    >
+                      {isLoading ? 'Generating...' : 'Generate My Workout'}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          <div className="button-group">
-            <button className="btn-refine" onClick={handleNewIteration}>
-              Refine Program
-            </button>
-            <button className="btn-primary" onClick={() => onComplete && onComplete(generatedWorkout, responses)}>
-              Start Workout
-            </button>
+        </section>
+      )}
+
+      {workout && (
+        <div className="results-side visible">
+          <div className="results-container">
+            {/* Top Action Bar */}
+            <div className="results-top-bar">
+              <div className="results-actions">
+                <button className="results-btn">⬇️ Download</button>
+                <button className="results-btn" onClick={handleBackToQuiz}>← Back to Quiz</button>
+              </div>
+              <div className="results-auth">
+                <button className="results-signin-btn">Sign In to Save</button>
+              </div>
+            </div>
+
+            {/* Client Choices Summary */}
+            <div className="results-choices-summary">
+              <div className="choices-row">
+                <div className="choice-item">
+                  <span className="choice-label">Level</span>
+                  <span className="choice-value">{responses?.fitnessLevel}</span>
+                </div>
+                <div className="choice-item">
+                  <span className="choice-label">Goal</span>
+                  <span className="choice-value">{responses?.primaryGoal}</span>
+                </div>
+                <div className="choice-item">
+                  <span className="choice-label">Frequency</span>
+                  <span className="choice-value">{responses?.daysPerWeek}x/week</span>
+                </div>
+                <div className="choice-item">
+                  <span className="choice-label">Duration</span>
+                  <span className="choice-value">{responses?.sessionDuration} min</span>
+                </div>
+                <div className="choice-item">
+                  <span className="choice-label">Equipment</span>
+                  <span className="choice-value">{responses?.equipment?.map(eq => formatEquipment(eq)).join(', ')}</span>
+                </div>
+                <div className="choice-item">
+                  <span className="choice-label">Style</span>
+                  <span className="choice-value">{responses?.trainingStyle}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Day Dropdown & Content */}
+            <div className="results-main">
+              <div className="results-day-selector">
+                <select className="day-dropdown" onChange={(e) => setSelectedDay(parseInt(e.target.value))} defaultValue={0}>
+                  {workout?.workouts?.map((day, idx) => (
+                    <option key={idx} value={idx}>
+                      Day {day.day}: {day.name.charAt(0).toUpperCase() + day.name.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="results-day-layout">
+                {/* Main Content */}
+                <div className="results-day-main">
+                  {/* Warm-up Section */}
+                  {workout?.warmup && (
+                    <div className="results-section">
+                      <button className="results-section-toggle" onClick={() => setExpandedSections({...expandedSections, warmup: !expandedSections.warmup})}>
+                        <h3>🔥 Warm-up</h3>
+                        <span>{expandedSections.warmup ? '▼' : '▶'}</span>
+                      </button>
+                      {expandedSections.warmup && (
+                        <div className="results-section-content">
+                          <p className="section-description">{workout.warmup.description}</p>
+                          <div className="warmup-items">
+                            {workout.warmup.exercises?.map((ex, idx) => (
+                              <div key={idx} className="warmup-item">
+                                <h4>{ex.name.charAt(0).toUpperCase() + ex.name.slice(1)}</h4>
+                                <p>{ex.description}</p>
+                                <span className="warmup-duration">{ex.duration}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Exercises Grid */}
+                  <div className="results-section">
+                    <h3>Exercises</h3>
+                    <div className="exercises-grid">
+                      {workout?.workouts?.[selectedDay]?.exercises?.map((exercise, idx) => (
+                        <div key={idx} className="exercise-card-full">
+                          <div className="exercise-header-full">
+                            <h4>{exercise.name.charAt(0).toUpperCase() + exercise.name.slice(1)}</h4>
+                            <span className="exercise-number">{idx + 1}</span>
+                          </div>
+                          {exercise.gifUrl && (
+                            <img src={exercise.gifUrl} alt={exercise.name} className="exercise-image" />
+                          )}
+                          <div className="exercise-details">
+                            <div className="detail-row">
+                              <span className="detail-label">Sets:</span>
+                              <span className="detail-value">{exercise.sets}</span>
+                            </div>
+                            <div className="detail-row">
+                              <span className="detail-label">Reps:</span>
+                              <span className="detail-value">{exercise.reps}</span>
+                            </div>
+                            <div className="detail-row">
+                              <span className="detail-label">Rest:</span>
+                              <span className="detail-value">{exercise.rest}</span>
+                            </div>
+                            <div className="detail-row">
+                              <span className="detail-label">Equipment:</span>
+                              <span className="detail-value">{exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1)}</span>
+                            </div>
+                            <div className="detail-row">
+                              <span className="detail-label">Primary:</span>
+                              <span className="detail-value">{exercise.bodyPart.charAt(0).toUpperCase() + exercise.bodyPart.slice(1)}</span>
+                            </div>
+                            <div className="detail-row">
+                              <span className="detail-label">Target:</span>
+                              <span className="detail-value">{exercise.target.charAt(0).toUpperCase() + exercise.target.slice(1)}</span>
+                            </div>
+                            {exercise.notes && (
+                              <div className="exercise-notes">
+                                <p>{exercise.notes}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Cool-down Section */}
+                  {workout?.cooldown && (
+                    <div className="results-section">
+                      <button className="results-section-toggle" onClick={() => setExpandedSections({...expandedSections, cooldown: !expandedSections.cooldown})}>
+                        <h3>❄️ Cool-down</h3>
+                        <span>{expandedSections.cooldown ? '▼' : '▶'}</span>
+                      </button>
+                      {expandedSections.cooldown && (
+                        <div className="results-section-content">
+                          <p className="section-description">{workout.cooldown.description}</p>
+                          <div className="cooldown-items">
+                            {workout.cooldown.exercises?.map((ex, idx) => (
+                              <div key={idx} className="cooldown-item">
+                                <h4>{ex.name.charAt(0).toUpperCase() + ex.name.slice(1)}</h4>
+                                <p>{ex.description}</p>
+                                <span className="cooldown-duration">{ex.duration}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Sidebar */}
+                <div className="results-sidebar">
+                  {/* Guidelines */}
+                  {workout?.guidelines && (
+                    <div className="sidebar-section">
+                      <button className="sidebar-toggle" onClick={() => setExpandedSections({...expandedSections, guidelines: !expandedSections.guidelines})}>
+                        <h4>Guidelines</h4>
+                        <span>{expandedSections.guidelines ? '▼' : '▶'}</span>
+                      </button>
+                      {expandedSections.guidelines && (
+                        <ul className="guidelines-list">
+                          {workout.guidelines.map((guideline, idx) => (
+                            <li key={idx}>{guideline}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Progression */}
+                  {workout?.progressionPlan && (
+                    <div className="sidebar-section">
+                      <button className="sidebar-toggle" onClick={() => setExpandedSections({...expandedSections, progression: !expandedSections.progression})}>
+                        <h4>Progression</h4>
+                        <span>{expandedSections.progression ? '▼' : '▶'}</span>
+                      </button>
+                      {expandedSections.progression && (
+                        <div className="progression-content">
+                          <h5>{workout.progressionPlan.name}</h5>
+                          <p>{workout.progressionPlan.description}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

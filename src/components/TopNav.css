@@ -1,0 +1,155 @@
+.top-nav {
+  background: #e8dcc8;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d0ccc4;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-right {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #333;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+  opacity: 0.6;
+}
+
+.nav-menu {
+  position: relative;
+}
+
+.nav-dropdown-btn {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-dropdown-btn:hover {
+  opacity: 0.6;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #ffffff;
+  border: 1px solid #d0ccc4;
+  min-width: 240px;
+  margin-top: 0;
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(-10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.nav-menu:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-link {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 12px;
+  color: #333;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0ebe3;
+}
+
+.dropdown-link:last-child {
+  border-bottom: none;
+}
+
+.dropdown-link:hover {
+  background-color: #faf9f7;
+  padding-left: 14px;
+}
+
+.dropdown-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.dropdown-title {
+  font-weight: 500;
+  color: #333;
+  display: block;
+  font-size: 13px;
+}
+
+.dropdown-desc {
+  font-size: 11px;
+  color: #999;
+  font-weight: 300;
+  display: block;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .top-nav {
+    padding: 10px 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 14px;
+  }
+
+  .nav-right {
+    gap: 16px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .nav-link {
+    font-size: 10px;
+  }
+
+  .dropdown-menu {
+    min-width: 150px;
+  }
+}

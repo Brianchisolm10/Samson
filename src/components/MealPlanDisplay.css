@@ -1,10 +1,117 @@
 .meal-plan-display {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 30px 16px;
+  padding: 20px 16px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  background: #e8dcc8;
+  min-height: 100vh;
+}
+
+/* Top Navigation */
+.top-nav {
+  background: #e8dcc8;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(42, 42, 42, 0.1);
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #2a2a2a;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.logo:hover {
+  opacity: 0.6;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #2a2a2a;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.6;
+}
+
+/* Action Bar - Horizontal at Top */
+.action-bar-horizontal {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  flex-wrap: wrap;
+}
+
+.action-bar-btn {
+  padding: 8px 16px;
+  border: 2px solid #8B6F47;
+  background: white;
+  color: #8B6F47;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.action-bar-btn:hover {
+  background: #8B6F47;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.action-bar-btn:active {
+  transform: translateY(0);
+}
+
+.btn-back-top {
+  display: inline-block !important;
+  margin-bottom: 16px !important;
+  padding: 8px 16px !important;
+  border: 2px solid #FF2625 !important;
+  background: #ffffff !important;
+  color: #FF2625 !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.btn-back-top:hover {
+  background: #FF2625 !important;
+  color: #ffffff !important;
 }
 
 .meal-plan-display.loading {
@@ -195,6 +302,104 @@
   padding: 12px;
   background: #f9f9f9;
   border-radius: 8px;
+}
+
+/* Micronutrient Totals */
+.micronutrient-totals {
+  margin-bottom: 16px;
+  padding: 0;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.micronutrient-toggle {
+  width: 100%;
+  background: #f9f9f9;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.micronutrient-toggle:hover {
+  background: #fff5f5;
+}
+
+.micronutrient-toggle h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.micronutrient-toggle .toggle-icon {
+  font-size: 11px;
+  color: #999;
+  transition: transform 0.2s ease;
+}
+
+.micronutrient-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  padding: 12px;
+  background: white;
+}
+
+.micronutrient-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px;
+  background: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+}
+
+.nutrient-name {
+  font-size: 9px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.nutrient-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: #FF2625;
+}
+
+.nutrient-target {
+  font-size: 8px;
+  color: #999;
+}
+
+.nutrient-bar {
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 2px 0;
+}
+
+.nutrient-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF2625, #ff6b6b);
+  transition: width 0.3s ease;
+}
+
+.nutrient-percentage {
+  font-size: 8px;
+  font-weight: 600;
+  color: #666;
 }
 
 .total-item {
@@ -473,7 +678,8 @@
 }
 
 .btn-print,
-.btn-download {
+.btn-download,
+.btn-back-home {
   padding: 10px 20px;
   border: 2px solid #FF2625;
   background: white;
@@ -486,7 +692,8 @@
 }
 
 .btn-print:hover,
-.btn-download:hover {
+.btn-download:hover,
+.btn-back-home:hover {
   background: #FF2625;
   color: white;
 }
@@ -542,7 +749,8 @@
   }
 
   .btn-print,
-  .btn-download {
+  .btn-download,
+  .btn-back-home {
     width: 100%;
   }
 }
@@ -560,4 +768,43 @@
   .meal-card {
     page-break-inside: avoid;
   }
+}
+
+
+/* Client Summary */
+.client-summary {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-left: 4px solid #667eea;
+}
+
+.client-summary h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.summary-item .label {
+  font-weight: bold;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.summary-item .value {
+  color: #333;
+  font-size: 1em;
 }
