@@ -16,16 +16,6 @@ function WorkoutDemo() {
   const [error, setError] = useState(null);
   const [workoutMode, setWorkoutMode] = useState(null); // 'detailed' or 'quick'
 
-  const handleChoiceDetailed = () => {
-    if (currentUser) {
-      // Logged-in users see a choice between quick and detailed
-      setStep('choice');
-      setWorkoutMode('detailed');
-    } else {
-      navigate('/signup');
-    }
-  };
-
   const handleChoiceQuick = () => {
     setWorkoutMode('quick');
     setStep('questionnaire');

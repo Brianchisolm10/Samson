@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './AdvancedQuestionnaire.css';
 import MealPlanDisplay from './MealPlanDisplay';
 import InfoTooltip from './InfoTooltip';
 import { generateMealPlan } from '../utils/mealPlanEngine';
 
 function AdvancedMealPlanQuestionnaire({ onComplete, onBack }) {
-  const navigate = useNavigate();
   const [step, setStep] = useState('advanced');
   const [responses, setResponses] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [mealPlan, setMealPlan] = useState(null);
-  const [selectedDay, setSelectedDay] = useState(0);
 
   const advancedQuestions = [
     {

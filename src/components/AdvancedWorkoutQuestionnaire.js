@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './AdvancedQuestionnaire.css';
 import WorkoutDisplay from './WorkoutDisplay';
 import InfoTooltip from './InfoTooltip';
 import { generateDetailedWorkout } from '../utils/workoutEngine';
 
 function AdvancedWorkoutQuestionnaire({ onComplete, onBack }) {
-  const navigate = useNavigate();
   const [step, setStep] = useState('advanced');
   const [responses, setResponses] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [workout, setWorkout] = useState(null);
-  const [selectedDay, setSelectedDay] = useState(0);
   const [expandedSections, setExpandedSections] = useState({
     warmup: true,
     cooldown: false,

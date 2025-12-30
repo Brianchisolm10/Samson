@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 import TopNav from './TopNav';
 import { createUser, loginUser, getCurrentUser } from '../utils/userStorage';
-import { formatEquipment, formatTrainingStyle } from '../utils/formatters';
+import { formatEquipment } from '../utils/formatters';
 
 function Signup() {
   const navigate = useNavigate();

@@ -4,8 +4,6 @@
  * Never defaults - always generates valid programs based on exact client needs
  */
 
-import { defaultExercises } from './exerciseDatabase';
-
 export const generateDetailedWorkout = async (responses) => {
   const {
     fitnessLevel,
