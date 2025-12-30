@@ -25,6 +25,7 @@ import FrequentlyAsked from './components/FrequentlyAsked';
 import Education from './components/Education';
 import Community from './components/Community';
 import Resources from './components/Resources';
+import ResourceDetail from './components/ResourceDetail';
 import Shop from './components/Shop';
 import Accessible from './components/Accessible';
 import WhyAfya from './components/WhyAfya';
@@ -91,6 +92,7 @@ function App() {
         <Route path="/education" element={<Education />} />
         <Route path="/community" element={<Community />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/resources/:id" element={<ResourceDetail />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/accessible" element={<Accessible />} />
         <Route path="/why-afya" element={<WhyAfya />} />
