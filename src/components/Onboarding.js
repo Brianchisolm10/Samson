@@ -55,6 +55,20 @@ function Onboarding() {
     setIsLoading(false);
   }, []);
 
+  // Warn before leaving if there's unsaved progress
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (currentUser && currentStep > 0 && currentStep < onboardingSteps.length - 1) {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved onboarding progress. Are you sure you want to leave?';
+        return 'You have unsaved onboarding progress. Are you sure you want to leave?';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [currentUser, currentStep]);
+
   const handleAuthComplete = (user) => {
     setCurrentUser(user);
     setCurrentStep(1);

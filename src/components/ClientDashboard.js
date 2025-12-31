@@ -5,6 +5,7 @@ import { formatTrainingStyle } from '../utils/formatters';
 import './ClientDashboard.css';
 import TopNav from './TopNav';
 import Footer from './Footer';
+import OnboardingResume from './OnboardingResume';
 
 function ClientDashboard() {
   const navigate = useNavigate();
@@ -170,6 +171,9 @@ function ClientDashboard() {
         </section>
 
         <div className="dashboard-layout">
+          {/* Onboarding Resume Banner */}
+          <OnboardingResume />
+
           {/* Left Sidebar - Action Cards */}
           <aside className="dashboard-sidebar">
             <div className="sidebar-content">
