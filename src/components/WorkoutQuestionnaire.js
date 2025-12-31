@@ -12,6 +12,12 @@ function WorkoutQuestionnaire({ onComplete }) {
   const [isLoading, setIsLoading] = useState(false);
   const [workout, setWorkout] = useState(null);
   const [selectedDay, setSelectedDay] = useState(0);
+  const [expandedSections, setExpandedSections] = useState({
+    warmup: true,
+    cooldown: false,
+    guidelines: true,
+    progression: true
+  });
 
   const initialQuestions = [
     {
