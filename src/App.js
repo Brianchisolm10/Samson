@@ -16,6 +16,7 @@ import FoodLibraryManager from './components/FoodLibraryManager';
 import ExerciseLibraryManager from './components/ExerciseLibraryManager';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import Onboarding from './components/Onboarding';
 import Profile from './components/Profile';
 import Schedule from './components/Schedule';
 import Contact from './components/Contact';
@@ -82,6 +83,7 @@ function App() {
         <Route path="/admin/exercise-library" element={<ExerciseLibraryManager />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/dashboard" element={<ClientDashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/schedule" element={<Schedule />} />
