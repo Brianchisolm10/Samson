@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './MealPlanQuestionnaire.css';
 import MealPlanDisplay from './MealPlanDisplay';
 import InfoTooltip from './InfoTooltip';
@@ -278,75 +278,108 @@ function MealPlanQuestionnaire({ onComplete }) {
 
   return (
     <div className={`questionnaire-wrapper ${mealPlan ? 'has-results' : ''}`}>
-      <div className="questionnaire-side">
-        <div className="questionnaire-container meal-plan-questionnaire">
-      {step === 'initial' && (
-        <div className="questionnaire-step">
-          <div className="step-header">
-            <h2>Let's Build Your Meal Plan</h2>
-            <p>Quick assessment - just 3 questions</p>
+      {!mealPlan && (
+        <section className="meal-plan-hero">
+          <div className="meal-plan-hero-content">
+            <h1 className="meal-plan-hero-title">Build Your Meal Plan</h1>
+            <p className="meal-plan-hero-subtitle">Personalized nutrition tailored to your goals</p>
+            
+            <div className="meal-plan-features-list">
+              <div className="meal-plan-feature-item">
+                <span className="meal-plan-feature-icon">✓</span>
+                <span>Personalized Macros & Calories</span>
+              </div>
+              <div className="meal-plan-feature-item">
+                <span className="meal-plan-feature-icon">✓</span>
+                <span>Dietary Preference Support</span>
+              </div>
+              <div className="meal-plan-feature-item">
+                <span className="meal-plan-feature-icon">✓</span>
+                <span>Food Preference Customization</span>
+              </div>
+              <div className="meal-plan-feature-item">
+                <span className="meal-plan-feature-icon">✓</span>
+                <span>Instant Results</span>
+              </div>
+            </div>
           </div>
-          <div className="questions">
-            {initialQuestions.map((q) => renderQuestion(q))}
-          </div>
-          <button
-            className="btn-next"
-            onClick={() => setStep('intermediate')}
-            disabled={!canProceedInitial()}
-          >
-            Continue
-          </button>
-        </div>
-      )}
 
-      {step === 'intermediate' && (
-        <div className="questionnaire-step">
-          <div className="step-header">
-            <h2>Customize Your Plan</h2>
-            <p>Goal: {responses.goal}</p>
-          </div>
-          <div className="questions">
-            {intermediateQuestions.map((q) => renderQuestion(q))}
-          </div>
-          <div className="button-group">
-            <button className="btn-back" onClick={() => setStep('initial')}>
-              Back
-            </button>
-            <button
-              className="btn-next"
-              onClick={() => setStep('refinement')}
-              disabled={!canProceedIntermediate()}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
+          <button className="meal-plan-back-btn" onClick={() => window.history.back()}>← Back</button>
 
-      {step === 'refinement' && (
-        <div className="questionnaire-step">
-          <div className="step-header">
-            <h2>Final Details</h2>
-            <p>Help us optimize your meal plan</p>
+          <div className="meal-plan-hero-visual">
+            <div className="meal-plan-quiz-container">
+              <div className="questionnaire-container meal-plan-questionnaire">
+                {step === 'initial' && (
+                  <div className="questionnaire-step">
+                    <div className="step-header">
+                      <h2>Let's Build Your Meal Plan</h2>
+                      <p>Quick assessment - just 3 questions</p>
+                    </div>
+                    <div className="questions">
+                      {initialQuestions.map((q) => renderQuestion(q))}
+                    </div>
+                    <button
+                      className="btn-next"
+                      onClick={() => setStep('intermediate')}
+                      disabled={!canProceedInitial()}
+                    >
+                      Continue
+                    </button>
+                  </div>
+                )}
+
+                {step === 'intermediate' && (
+                  <div className="questionnaire-step">
+                    <div className="step-header">
+                      <h2>Customize Your Plan</h2>
+                      <p>Goal: {responses.goal}</p>
+                    </div>
+                    <div className="questions">
+                      {intermediateQuestions.map((q) => renderQuestion(q))}
+                    </div>
+                    <div className="button-group">
+                      <button className="btn-back" onClick={() => setStep('initial')}>
+                        Back
+                      </button>
+                      <button
+                        className="btn-next"
+                        onClick={() => setStep('refinement')}
+                        disabled={!canProceedIntermediate()}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 'refinement' && (
+                  <div className="questionnaire-step">
+                    <div className="step-header">
+                      <h2>Final Details</h2>
+                      <p>Help us optimize your meal plan</p>
+                    </div>
+                    <div className="questions">
+                      {refinementQuestions.map((q) => renderQuestion(q))}
+                    </div>
+                    <div className="button-group">
+                      <button className="btn-back" onClick={() => setStep('intermediate')}>
+                        Back
+                      </button>
+                      <button
+                        className="btn-generate"
+                        onClick={handleGenerate}
+                        disabled={!canProceedRefinement() || isLoading}
+                      >
+                        {isLoading ? 'Generating...' : 'Generate My Meal Plan'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="questions">
-            {refinementQuestions.map((q) => renderQuestion(q))}
-          </div>
-          <div className="button-group">
-            <button className="btn-back" onClick={() => setStep('intermediate')}>
-              Back
-            </button>
-            <button
-              className="btn-generate"
-              onClick={handleGenerate}
-              disabled={!canProceedRefinement() || isLoading}
-            >
-              {isLoading ? 'Generating...' : 'Generate My Meal Plan'}
-            </button>
-          </div>
-        </div>
+        </section>
       )}
-      </div>
 
       {/* Results Panel */}
       {mealPlan && (
@@ -354,7 +387,6 @@ function MealPlanQuestionnaire({ onComplete }) {
           <MealPlanDisplay mealPlan={mealPlan} responses={responses} />
         </div>
       )}
-      </div>
     </div>
   );
 }

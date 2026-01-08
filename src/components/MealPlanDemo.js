@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MealPlanQuestionnaire from './MealPlanQuestionnaire';
 import AdvancedMealPlanQuestionnaire from './AdvancedMealPlanQuestionnaire';
@@ -19,17 +19,6 @@ function MealPlanDemo() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [mealPlanMode, setMealPlanMode] = useState(null); // 'detailed' or 'quick'
-
-  const handleChoiceDetailed = () => {
-    if (currentUser) {
-      // Logged-in users see a choice between quick and detailed
-      setStep('choice');
-      setMealPlanMode('detailed');
-    } else {
-      // User not logged in, redirect to signup
-      navigate('/signup');
-    }
-  };
 
   const handleChoiceQuick = () => {
     setMealPlanMode('quick');
